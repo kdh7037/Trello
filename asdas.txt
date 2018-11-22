@@ -3,6 +3,7 @@ list_id int unsigned auto_increment
 list varchar(50) NOT NULL
 card_num int(10) DEFAULT ‘0’ NOT NULL
 date char(10) NOT NULL
+primary key (list_id)
 );
 
 
