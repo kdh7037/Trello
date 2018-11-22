@@ -1,0 +1,15 @@
+.listcard
+{
+    width: 272px !important;
+}
+
+.inv:hover
+{
+    cursor: pointer !important;
+}
+
+.inv:not(:focus)
+{
+    background : none !important;
+    border : none !important;
+}
