@@ -1,28 +1,28 @@
 CREATE TABLE list(
-list_id int unsigned auto_increment
-list varchar(50) NOT NULL
-card_num int(10) DEFAULT ‘0’ NOT NULL
-date char(10) NOT NULL
+list_id int unsigned auto_increment,
+list varchar(50) NOT NULL,
+card_num int(10) DEFAULT ‘0’ NOT NULL,
+date char(10) NOT NULL,
 primary key (list_id)
 );
 
 
 CREATE TABLE card (
-list_id int(10) DEFAULT ‘0’ NOT NULL
-card_id	int(10) DEFAULT ‘0’ NOT NULL
-card varchar(50) NOT NULL
-comment_num	int(10) DEFAULT ‘0’ NOT NULL
+list_id int(10) DEFAULT ‘0’ NOT NULL,
+card_id	int(10) DEFAULT ‘0’ NOT NULL,
+card varchar(50) NOT NULL,
+comment_num	int(10) DEFAULT ‘0’ NOT NULL,
 date char(10) NOT NULL 
 );
 
 
 
 CREATE TABLE comment (
-list_id int(10) DEFAULT ‘0’ NOT NULL
-card_id int(10) DEFAULT ‘0’ NOT NULL
-comment_id int(10) DEFAULT ‘0’ NOT NULL
-mess varchar(100) NOT NULL
-date char(10) NOT NULL
+list_id int(10) DEFAULT ‘0’ NOT NULL,
+card_id int(10) DEFAULT ‘0’ NOT NULL,
+comment_id int(10) DEFAULT ‘0’ NOT NULL,
+mess varchar(100) NOT NULL,
+date char(10) NOT NULL,
 user_name varchar(10) NOT NULL
 );
 
