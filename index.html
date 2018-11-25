@@ -11,7 +11,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
 	<script>
-		$(document).ready(function(){
+		$(document).ready(function () {
 			$('.inner-card').on('click', function () {
 				$('#myModal').modal('show');
 			});
@@ -61,27 +61,19 @@
 			<h4>Trello</h4>
 		</div>
 	</nav>
-	<div class="d-inline-flex">
-		<div class="card listcard m-1 ml-2 bg-light">
+	
+	<script>
+			jQuery(function ($) {
+				$(this).on("click", "#btn-add-list", function () {
+					$("#mylist").clone().prependTo("#listform");
+				});
+			}); 
+	</script>
+
+	<div id="listform" class="d-inline-flex">
+		<div id="mylist" class="card listcard m-1 bg-light">
 			<div class="card-body p-1 m-1">
-				<input type="text" class="form-control inv" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter list title...">
-				<div class="inner-card card my-2">
-					<div class="card-body p-1" id="myBtn">
-						<p class="card-text">Some quick examp</p>
-					</div>
-				</div>
-				<div class="inner-card card my-2">
-					<div class="card-body p-1">
-						<p class="card-text">Some quick examp</p>
-					</div>
-				</div>
-				<p class="card-text">This card h</p>
-				<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-			</div>
-		</div>
-		<div class="card listcard m-1 bg-light">
-			<div class="card-body p-1 m-1">
-				<input type="text" class="form-control inv" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter list title...">
+				<input type="text" class="form-control inv" aria-describedby="emailHelp" placeholder="Enter list title...">
 				<div class="inner-card card my-2">
 					<div class="card-body p-1">
 						<p class="card-text">Some quick examp</p>
@@ -96,23 +88,7 @@
 				<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 			</div>
 		</div>
-		<div class="card listcard m-1 bg-light">
-			<div class="card-body p-1 m-1">
-				<input type="text" class="form-control inv" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter list title...">
-				<div class="inner-card card my-2">
-					<div class="card-body p-1">
-						<p class="card-text">Some quick examp</p>
-					</div>
-				</div>
-				<div class="inner-card card my-2">
-					<div class="card-body p-1">
-						<p class="card-text">Some quick examp</p>
-					</div>
-				</div>
-				<p class="card-text">This card h</p>
-				<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-			</div>
-		</div>
+		<button id='btn-add-list'>Create New List</button>
 	</div>
 </body>
 
