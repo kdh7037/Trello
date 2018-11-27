@@ -12,14 +12,30 @@
 	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('.inner-card').on('click', function () {
+			$('#listform').on('click', '.inner-card', function () {
 				$('#myModal').modal('show');
 			});
 		});
 	</script>
+	<script>
+		var num = 0;
+		jQuery(function ($) {
+			$(this).on("click", "#btn-add-list", function () {
+				var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",num+1);
+				num++;
+				temp.appendTo("#listform");
+			});
+		});
+		jQuery(function ($) {
+			$(this).on("click", "#btn-add-card", function () {
+				var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
+				$(this).parent().find(".card-body").first().append(temp);
+			});
+		}); 
+	</script>
 </head>
 
-<body class=bg-primary>
+<body class="bg-primary">
 	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -40,7 +56,7 @@
 		</div>
 	</div>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-info">
+	<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
 		<button type="button" class="btn btn-info btn-sm">home</button>
 		<div class="col-4 mx-auto text-center">
 			<h4>버튼 여기</h4>
@@ -49,46 +65,24 @@
 			<h4>Trello</h4>
 		</div>
 	</nav>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<button type="button" class="btn btn-primary btn-sm">제목</button>
-		<button type="button" class="btn btn-primary btn-sm">별</button>
-		<button type="button" class="btn btn-primary btn-sm">Personal</button>
-		<button type="button" class="btn btn-primary btn-sm">private</button>
-		<div class="col-4 mx-auto text-center">
-			<h4>버튼 여기</h4>
+	<div class="d-inline-flex">
+		<div id="listform" class="d-inline-flex h-100">
 		</div>
-		<div class="col-4 mx-auto text-center">
-			<h4>Trello</h4>
-		</div>
-	</nav>
-	
-	<script>
-			jQuery(function ($) {
-				$(this).on("click", "#btn-add-list", function () {
-					$("#mylist").clone().prependTo("#listform");
-				});
-			}); 
-	</script>
+		<button id='btn-add-list' class="btn btn-secondary" style="width: 264px; height:40px; margin:4px">+ Add another list</button>
+	</div>
 
-	<div id="listform" class="d-inline-flex">
-		<div id="mylist" class="card listcard m-1 bg-light">
-			<div class="card-body p-1 m-1">
-				<input type="text" class="form-control inv" aria-describedby="emailHelp" placeholder="Enter list title...">
-				<div class="inner-card card my-2">
-					<div class="card-body p-1">
-						<p class="card-text">Some quick examp</p>
-					</div>
+	<!-- Don't remove it -->
+	<div id="mylist" class="mylist card listcard m-1 p-2 bg-light d-none h-100" data-listindex="0">
+		<div class="card-body p-0 w-100">
+			<input type="text" class="form-control inv w-100 my-2" aria-describedby="emailHelp" placeholder="Enter list title...">
+			<div id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
+				<div class="p-1">
+					<p class="d-inline card-text"></p>
+					<button type="button" class="close my-auto" data-dismiss="modal">×</button>
 				</div>
-				<div class="inner-card card my-2">
-					<div class="card-body p-1">
-						<p class="card-text">Some quick examp</p>
-					</div>
-				</div>
-				<p class="card-text">This card h</p>
-				<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 			</div>
 		</div>
-		<button id='btn-add-list'>Create New List</button>
+		<button id='btn-add-card' class="btn btn-secondary w-100">+ Add another card</button>
 	</div>
 </body>
 
