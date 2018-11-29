@@ -1,4 +1,3 @@
-<?php include("./functions.inc"); print"";?>
 
 <html lang="ko">
 
