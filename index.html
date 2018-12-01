@@ -11,7 +11,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
 	<script>
-		var num = 0;
+		var lis = 0;
 		$(document).ready(function () {
 
 			$('#listform')
@@ -22,14 +22,14 @@
 				$('#myModal').modal('show');
 			})
 			.on("click", "#btn-remove-card", function () {
-				var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
+				var temp = $("#mycard").clone().removeClass('d-none').attr("id","").attr("data-cardindex");
 				$(this).parent().find(".card-body").first().append(temp);
 			})
 			.on("click", "#btn-new-list", function () {
 				$("#newlist").addClass('d-none');
 				var value = $("#listname").val();
-				var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",num+1);
-				num++;
+				var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",lis+1);
+				lis++;
 				temp.appendTo("#listform");
 				temp.find(".listtitle").val(value);
 			})
@@ -40,7 +40,7 @@
 
 			$("#btn-adj").on('click', function () {
 				var adj= $(".title").val();
-				$("#mycard").find("span").val(adj);
+				$("").find("span").val(adj);
 			})
 
 			$(document).on("click", "#btn-add-list", function () {

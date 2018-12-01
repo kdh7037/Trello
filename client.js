@@ -77,8 +77,36 @@ function createHiddenInput(name, value){
         });
     }); 
 
-    var exampleSocket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
+    var socket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
 
-    exampleSocket.onmessage = function (event) {
+    socket.onopen = function (event) {
+
+    }
+
+    socket.onmessage = function (event) {
         console.log(event.data);
+        // 리스트 번호, 카드번호, 스왑, 제거, 추가
+        var string = event.data;
+        var command = string.split('\n');
+        switch(command[0]){
+            case "list":
+                var listnum = command[1];
+            break;
+            case "card":
+                var cardnum = command[1];
+            break;
+            case "swap":
+                if(command[1] == list)
+                    var temp = command[2];
+                    command[2] = command[3];
+                    command[3] = temp;
+                elseif(command[1] == card);
+            break;
+            case "remove":
+
+            break;
+            case "add":
+
+            break;
+        }
     }
