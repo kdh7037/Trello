@@ -29,6 +29,7 @@
 					<input class="form-control">
 				</div>
 				<div class="modal-footer">
+					<button type="button" id='btn-save-card' class="btn btn-default">Save</button>
 					<button type="button" id='btn-remove-card' class="btn btn-default">Remove</button>
 				</div>
 			</div>
@@ -59,17 +60,15 @@
 	</div>
 
 	<!-- Don't remove it -->
+	<!-- list의 본체 -->
 	<div id="mylist" class="mylist card listcard m-1 p-2 bg-light d-none h-100" data-listindex="0">
 		<div class="card-body p-0 w-100">
-			<input type="text" class="listtitle form-control inv w-100 my-2">
-			<form id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
-					<div class="d-flex p-1">
-						<span class="d-inline card-text w-100"></span>
-						<button type="button" class="btn-adjust-name close my-auto">正</button>
-					</div>
-			</form>
+			<div class="d-flex p-1">
+				<input type="text" class="d-inline listtitle form-control inv w-100 mt-0">
+				<button type="button" class="btn-remove-list close my-auto">X</button>
+			</div>
 		</div>
-		<button id='btn-add-card' class="btn btn-secondary w-100">+ Add another card</button>
+		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>
 	</div>
 	<div id="newlist" class=" card listcard d-none m-1 p-2 bg-light h-100">
 		<input id='listname'>
@@ -77,6 +76,14 @@
 			</div>
 		<button id='btn-new-list' class="btn btn-secondary w-100">Add list</button>
 	</div>
+
+	<!-- card의 본체 -->
+	<form id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
+		<div class="d-flex p-1">
+			<span class="d-inline card-text w-100"></span>
+			<button type="button" class="btn-adjust-name close my-auto">正</button>
+		</div>
+	</form>
 
 
 </body>

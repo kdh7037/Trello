@@ -6,24 +6,22 @@ function createHiddenInput(name, value){
   return temp;
 }
 
-    jQuery(function ($) {
-        $(this).on("click", "#btn-new-list", function () {
-            $("#newlist").addClass('d-none');
-            var value = $("#listname").val();
-            var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",lis+1);
-            lis++;
-            temp.appendTo("#listform");
-            temp.find(".listtitle").val(value);
-
-              var form=document.createElement("form");
-            form.setAttribute("method","post");
-            form.setAttribute("action","/list_control.php");
-
-              var idx=createHiddenInput("message","add_list");
-            form.appendChild(idx);
-            
-            document.body.appendChild(form);
-            form.submit();
+    jQuery(function () {
+        $(document).on("click", "#btn-new-list", function () {
+            socket.send("add\nlist");
+        })
+        .on("click", ".btn-add-card", function () {
+            var listnum = $(this).parent().attr("data-listindex");
+            socket.send("add\ncard\n"+listnum);
+        })
+        .on("click", ".btn-remove-list", function () {
+            var listnum = $(this).parent().parent().attr("data-listindex");
+            socket.send("remove\nlist\n"+listnum);
+        })
+        .on("click", "#btn-remove-card", function () {
+            //수정해야함
+            var cardnum = $(this).parent().parent().attr("data-listindex");
+            socket.send("remove\ncard\n"+cardnum);
         });
     });
     $(document).ready(function () {
@@ -35,11 +33,6 @@ function createHiddenInput(name, value){
 
         .on('click', 'span', function () {
             $('#myModal').modal('show');
-        })
-
-        .on("click", "#btn-remove-card", function () {
-            var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
-            $(this).parent().find(".card-body").first().append(temp);
         })
 
         $("#adjust").on('click', '.btn-adj', function () {
@@ -69,15 +62,10 @@ function createHiddenInput(name, value){
             document.body.appendChild(form);
             form.submit();
         });
-    });
-    jQuery(function ($) {
-        $(document).on("click", "#btn-add-card", function () {
-            var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
-            $(this).parent().find(".card-body").first().append(temp);
-        });
     }); 
 
-    var socket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
+    var socket ;
+    socket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
 
     socket.onopen = function (event) {
 
@@ -85,28 +73,71 @@ function createHiddenInput(name, value){
 
     socket.onmessage = function (event) {
         console.log(event.data);
-        // 리스트 번호, 카드번호, 스왑, 제거, 추가
+        // 스왑, 제거, 추가
         var string = event.data;
         var command = string.split('\n');
         switch(command[0]){
-            case "list":
-                var listnum = command[1];
-            break;
-            case "card":
-                var cardnum = command[1];
-            break;
             case "swap":
-                if(command[1] == list)
+                if(command[1] == "list"){
                     var temp = command[2];
                     command[2] = command[3];
                     command[3] = temp;
-                elseif(command[1] == card);
+                }
+                else if(command[1] == "card"){
+
+                }
             break;
             case "remove":
-
+                if(command[1]=="list"){
+                    //[2]는 listnum
+                    remove_card(command[2]);
+                }
+                else if(command[1]=="card"){
+                    //[2]는 cardnum
+                    remove_card(command[2]);
+                }
             break;
             case "add":
-
+                if(command[1]=="list"){
+                    //[2]는 listnum
+                    add_list(command[2]);
+                }
+                else if(command[1]=="card"){
+                    //[2]는 listnum [3]은 cardnum
+                    add_card(command[2], command[3]);
+                }
             break;
         }
+    }
+
+    function add_list(listnum){
+        $("#newlist").addClass('d-none');
+            var value = $("#listname").val();
+            var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",listnum);
+            temp.appendTo("#listform");
+            temp.find(".listtitle").val(value);
+
+            return ;
+              var form=document.createElement("form");
+            form.setAttribute("method","post");
+            form.setAttribute("action","/list_control.php");
+
+              var idx=createHiddenInput("message","add_list");
+            form.appendChild(idx);
+            
+            document.body.appendChild(form);
+            form.submit();
+    }
+
+    function add_card(listnum, cardnum){
+        var temp = $("#mycard").clone().removeClass('d-none').attr("id","").attr("data-cardindex",cardnum);
+        $('[data-listindex='+listnum+'] .card-body').first().append(temp);
+    }
+
+    function remove_list(listnum){
+        $('[data-listindex='+listnum+']').remove();
+    }
+
+    function remove_card(cardnum){
+        $('[data-cardindex='+cardnum+']').remove();
     }
