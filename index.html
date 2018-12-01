@@ -11,26 +11,45 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
 	<script>
-		$(document).ready(function () {
-			$('#listform').on('click', '.inner-card', function () {
-				$('#myModal').modal('show');
-			});
-		});
-	</script>
-	<script>
 		var num = 0;
-		jQuery(function ($) {
-			$(this).on("click", "#btn-add-list", function () {
+		$(document).ready(function () {
+
+			$('#listform')
+			.on('click', 'button.btn-adjust-name', function () {
+				$('#adjust').modal('show');
+			})
+			.on('click', 'span', function () {
+				$('#myModal').modal('show');
+			})
+			.on("click", "#btn-remove-card", function () {
+				var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
+				$(this).parent().find(".card-body").first().append(temp);
+			})
+			.on("click", "#btn-new-list", function () {
+				$("#newlist").addClass('d-none');
+				var value = $("#listname").val();
 				var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",num+1);
 				num++;
 				temp.appendTo("#listform");
-			});
-		});
-		jQuery(function ($) {
-			$(this).on("click", "#btn-add-card", function () {
+				temp.find(".listtitle").val(value);
+			})
+			.on("click", "#btn-add-card", function () {
 				var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
 				$(this).parent().find(".card-body").first().append(temp);
 			});
+
+			$("#btn-adj").on('click', function () {
+				var adj= $(".title").val();
+				$("#mycard").find("span").val(adj);
+			})
+
+			$(document).on("click", "#btn-add-list", function () {
+				var temp = $("#newlist").removeClass('d-none');
+				temp.appendTo("#listform");
+			})
+			$(document).on("click","#btn-remove-card",function(){
+				$('form').remove('.inner-card');
+			})
 		});
 	</script>
 </head>
@@ -45,13 +64,21 @@
 				</div>
 				<div class="modal-body">
 					<h6>여기에 디스크립트</h6>
-					<input type="email" class="form-control">
+					<input class="form-control">
 					<h6>여기에 댓글</h6>
-					<input type="email" class="form-control">
+					<input class="form-control">
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" id='btn-remove-card' class="btn btn-default">Remove</button>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" tabindex="-1" id="adjust" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<input class="title form-control">
+				<button id="btn-adj" type="button" class="btn btn-default" data-dismiss="modal">Adjust</button>
 			</div>
 		</div>
 	</div>
@@ -74,16 +101,24 @@
 	<!-- Don't remove it -->
 	<div id="mylist" class="mylist card listcard m-1 p-2 bg-light d-none h-100" data-listindex="0">
 		<div class="card-body p-0 w-100">
-			<input type="text" class="form-control inv w-100 my-2" aria-describedby="emailHelp" placeholder="Enter list title...">
-			<div id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
-				<div class="p-1">
-					<p class="d-inline card-text"></p>
-					<button type="button" class="close my-auto" data-dismiss="modal">×</button>
-				</div>
-			</div>
+			<input type="text" class="listtitle form-control inv w-100 my-2">
+			<form id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
+					<div class="d-flex p-1">
+						<span class="d-inline card-text w-100"></span>
+						<button type="button" class="btn-adjust-name close my-auto">正</button>
+					</div>
+			</form>
 		</div>
 		<button id='btn-add-card' class="btn btn-secondary w-100">+ Add another card</button>
 	</div>
+	<div id="newlist" class=" card listcard d-none m-1 p-2 bg-light h-100">
+		<input id='listname'>
+			<div class="card-body p-0 w-100">
+			</div>
+		<button id='btn-new-list' class="btn btn-secondary w-100">Add list</button>
+	</div>
+
+
 </body>
 
 </html>
