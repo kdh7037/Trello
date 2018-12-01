@@ -1,12 +1,8 @@
-var lis = 0;
-
 function createHiddenInput(name, value){
-  var temp=document.createElement("input");
-  temp.setAttribute("type","hidden");
-  temp.setAttribute("name",name);
-        temp.setAttribute("value",value);
-        
-
+    var temp=document.createElement("input");
+    temp.setAttribute("type","hidden");
+    temp.setAttribute("name",name);
+    temp.setAttribute("value",value);
   return temp;
 }
 
@@ -80,3 +76,9 @@ function createHiddenInput(name, value){
             $(this).parent().find(".card-body").first().append(temp);
         });
     }); 
+
+    var exampleSocket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
+
+    exampleSocket.onmessage = function (event) {
+        console.log(event.data);
+    }
