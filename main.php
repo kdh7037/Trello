@@ -33,6 +33,8 @@
  	<title>Document</title>
  	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
  	<link rel="stylesheet" href="css/css.css">
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/favicon.ico"/>
+  <link rel="icon" href="images/favicon.ico" type="image/favicon.ico"/>
  	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
  	<script>
@@ -42,6 +44,41 @@
  			});
  		});
  	</script>
+  <script>
+		var num = 0;
+
+    function createHiddenInput(name, value){
+      var temp=createElement("input");
+      temp.setAttribute("type","hidden");
+      temp.setAttribute("name",name);
+      temp.setAttribute("value",value);
+
+      return temp;
+    }
+
+		jQuery(function ($) {
+			$(this).on("click", "#btn-add-list", function () {
+        var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",num+1);
+				num++;
+
+        var form=document.createElement("form");
+        form.setAttribute("method","post");
+        form.setAttribute("action","/add-card.php");
+
+        var idx=createHiddenInput("index",num);
+        
+
+
+				temp.appendTo("#listform");
+			});
+		});
+		jQuery(function ($) {
+			$(this).on("click", "#btn-add-card", function () {
+				var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
+				$(this).parent().find(".card-body").first().append(temp);
+			});
+		});
+	</script>
  </head>
 
  <body class=bg-primary>
