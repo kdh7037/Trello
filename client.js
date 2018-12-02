@@ -1,4 +1,4 @@
-    var socket = new WebSocket("ws://localhost:7857");
+    var socket = new WebSocket("ws://localhost:7867");
 
     function createHiddenInput(name, value){
         var temp=document.createElement("input");

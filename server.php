@@ -5,7 +5,7 @@ function handshake($client, $headers, $socket) {
 	if(preg_match("/Sec-WebSocket-Version: (.*)\r\n/", $headers, $match))
 		$version = $match[1];
 	else {
-		console("The client doesn't support WebSocket");
+		print("The client doesn't support WebSocket");
 		return false;
 	}
 
@@ -33,7 +33,7 @@ function handshake($client, $headers, $socket) {
 		return true;
 	}
 	else {
-		console("WebSocket version 13 required (the client supports version {$version})");
+		print("WebSocket version 13 required (the client supports version {$version})");
 		return false;
     }
 }
