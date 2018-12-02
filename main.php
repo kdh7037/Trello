@@ -70,6 +70,8 @@
 		</div>
 		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>
 	</div>
+	
+	<!-- list를 만드는 폼-->
 	<div id="newlist" class=" card listcard d-none m-1 p-2 bg-light h-100">
 		<input id='listname'>
 			<div class="card-body p-0 w-100">

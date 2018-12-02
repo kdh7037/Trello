@@ -34,10 +34,7 @@ function createHiddenInput(name, value){
             $('#adjust').modal('show');
         })
 
-        .on('click', 'span', function () {
-            $('#myModal').modal('show');
-        })
-
+        //수정필요
         $("#adjust").on('click', '.btn-adj', function () {
             var adj= $(".title").val();
             $("#mycard").find("span").val(adj);
@@ -183,6 +180,9 @@ function createHiddenInput(name, value){
     function load_workspace(){
 
     }
-    function load_description(){
-        
+    function load_description(cardnum){
+        $('#listform').on('click', 'span', function () {
+            modal_cardnum = $(this).parent().parent().attr("data-cardindex");
+            $('#myModal').modal('show');
+        })
     }
