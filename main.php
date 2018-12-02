@@ -15,22 +15,22 @@
  
 
  <body class="bg-primary">
-	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
+	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true" data-modalindex="0">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">여기에 카드 이름 들어가야하는디</h4>
+					<h4 class="modal-title">card name</h4>
 					<button type="button" class="close" data-dismiss="modal">×</button>
 				</div>
 				<div class="modal-body">
-					<h6>여기에 디스크립트</h6>
+					<h6>Descript</h6>
 					<input class="form-control">
-					<h6>여기에 댓글</h6>
+					<h6>Add comment</h6>
 					<input class="form-control">
 				</div>
 				<div class="modal-footer">
 					<button type="button" id='btn-save-card' class="btn btn-default">Save</button>
-					<button type="button" id='btn-remove-card' class="btn btn-default">Remove</button>
+					<button type="button" id='btn-delete-card' class="btn btn-default">Remove</button>
 				</div>
 			</div>
 		</div>
@@ -59,13 +59,13 @@
 		<button id='btn-add-list' class="btn btn-secondary" style="width: 264px; height:40px; margin:4px">+ Add another list</button>
 	</div>
 
-	<!-- Don't remove it -->
+	<!-- Don't delete it -->
 	<!-- list의 본체 -->
 	<div id="mylist" class="mylist card listcard m-1 p-2 bg-light d-none h-100" data-listindex="0">
 		<div class="card-body p-0 w-100">
 			<div class="d-flex p-1">
 				<input type="text" class="d-inline listtitle form-control inv w-100 mt-0">
-				<button type="button" class="btn-remove-list close my-auto">X</button>
+				<button type="button" class="btn-delete-list close my-auto">X</button>
 			</div>
 		</div>
 		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>

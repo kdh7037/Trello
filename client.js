@@ -6,22 +6,25 @@ function createHiddenInput(name, value){
   return temp;
 }
 
+    var modal_listnum = "0";
+    var modal_cardnum = "0";
+
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
-            socket.send("add\nlist");
+            socket.send("add\\list");
         })
         .on("click", ".btn-add-card", function () {
             var listnum = $(this).parent().attr("data-listindex");
-            socket.send("add\ncard\n"+listnum);
+            socket.send("add\\card\\"+listnum);
         })
-        .on("click", ".btn-remove-list", function () {
+        .on("click", ".btn-delete-list", function () {
             var listnum = $(this).parent().parent().attr("data-listindex");
-            socket.send("remove\nlist\n"+listnum);
+            socket.send("delete\\list\\"+listnum);
         })
-        .on("click", "#btn-remove-card", function () {
+        .on("click", "#btn-delete-card", function () {
             //수정해야함
-            var cardnum = $(this).parent().parent().attr("data-listindex");
-            socket.send("remove\ncard\n"+cardnum);
+            var cardnum = $('form').attr("data-cardindex");
+            socket.send("delete\\card\\"+cardnum);
         });
     });
     $(document).ready(function () {
@@ -75,26 +78,46 @@ function createHiddenInput(name, value){
         console.log(event.data);
         // 스왑, 제거, 추가
         var string = event.data;
-        var command = string.split('\n');
+        var command = string.split('\\');
         switch(command[0]){
-            case "swap":
-                if(command[1] == "list"){
-                    var temp = command[2];
-                    command[2] = command[3];
-                    command[3] = temp;
+            case "load":
+                if(command[1] == "workspace"){
+                    load_workspace();
                 }
-                else if(command[1] == "card"){
-
+                else if(command[1] == "description"){
+                    //[2]는 cardnum;
+                    load_description(command[2]);
+                } 
+            case "modify":
+                if(command[1] == "list_name"){
+                    //[2]는 listnum, [3]은 new_name
+                    modify_list_name(command[2],command[3]);
+                }
+                else if(command[1] == "list_place"){
+                    //[2]는 listnum, [3]은 옮겨질 곳(왼쪽)
+                    modify_list_place(command[2],command[3]);
+                }
+                else if(command[1] == "card_name"){
+                    //[2]는 cardnum, [3]은 new_name
+                    modify_card_name(command[2],command[3]);
+                }
+                else if(command[1] == "card_place"){
+                    //[2]는 cardnum, [3]은 옮겨질 곳(위쪽)
+                    modify_card_place(command[2],command[3]);
+                }
+                else if(command[1] == "description"){
+                    //[2]는 cardnum, [3]은 string
+                    modify_description(command[2],command[3]);
                 }
             break;
-            case "remove":
+            case "delete":
                 if(command[1]=="list"){
                     //[2]는 listnum
-                    remove_card(command[2]);
+                    delete_card(command[2]);
                 }
                 else if(command[1]=="card"){
                     //[2]는 cardnum
-                    remove_card(command[2]);
+                    delete_card(command[2]);
                 }
             break;
             case "add":
@@ -134,10 +157,32 @@ function createHiddenInput(name, value){
         $('[data-listindex='+listnum+'] .card-body').first().append(temp);
     }
 
-    function remove_list(listnum){
+    function delete_list(listnum){
         $('[data-listindex='+listnum+']').remove();
     }
 
-    function remove_card(cardnum){
+    function delete_card(cardnum){
         $('[data-cardindex='+cardnum+']').remove();
+    }
+    //여기부터 작성해야합니다
+    function modify_list_name(listnum, new_name){
+    }
+
+    function modify_list_place(listnum, list_left){
+    }
+
+    function modify_card_name(cardnum, new_name){
+    }
+
+    function modify_card_place(listnum, card_up){
+    }
+
+    function modify_description(cardnum, description){
+
+    }
+    function load_workspace(){
+
+    }
+    function load_description(){
+        
     }
