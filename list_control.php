@@ -35,7 +35,7 @@ case "a": 							//add/list/name
 		mysqli_query( $con, $query );
 	}
 	break;
-case "d":																	//delete/list_index
+case "d":									//delete/list_index
 	$num = substr($_POST[message], 7, 5);
 	$query = "select link_left, link_right 
 		from list where list_id = $num";
@@ -57,7 +57,7 @@ case "d":																	//delete/list_index
 	break;
 case "m":
 	$type_modify = substr($_POST[message], 12, 1);
-	if($type_modify == 'n') { 														//modify/list_name/list_index/new_name
+	if($type_modify == 'n') { 						//modify/list_name/list_index/new_name
 		$data = substr($_POST[message], 17, 60);			//list_index, new_name 추출
 		$name = substr(strchr($data, '/'),1,50);
 		$id_length = strlen($data) - strlen($name) - 1;
@@ -68,7 +68,7 @@ case "m":
 			where list_id ='$id'";
 		mysqli_query( $con, $query );
     }
-	else {																				//modify/list_place/list_index/list_left
+	else {									//modify/list_place/list_index/list_left
 		$data = substr($_POST[message], 18, 60);			//list_index, list_left 추출
 		$left_id = substr(strchr($data, '/'),1,50);
 		$id_length = strlen($data) - strlen($left_id) - 1;
@@ -93,7 +93,7 @@ case "m":
 			where list_id ='$link[1]'";
 		mysqli_query( $con, $query );
 						
-		if($left_id == '0') {
+		if($left_id == '0') {						//list_left<0인 경우
 			$query = "select list_id
 				from list where link_left = '0'";
 			$result = mysqli_query($con, $query);
