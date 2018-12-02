@@ -1,8 +1,9 @@
 CREATE TABLE list(
 list_id int unsigned auto_increment,
+link_left int(10) DEFAULT '0' NOT NULL,
+link_right int(10) DEFAULT '0' NOT NULL,
 list varchar(50),
 card_num int(10) DEFAULT '0' NOT NULL,
-date char(10),
 primary key (list_id)
 );
 
@@ -10,9 +11,10 @@ primary key (list_id)
 CREATE TABLE card (
 list_id int(10) DEFAULT '0' NOT NULL,
 card_id	int(10) unsigned auto_increment,
+link_left int(10) DEFAULT '0' NOT NULL,
+link_right int(10) DEFAULT '0' NOT NULL,
 card varchar(50),
 comment_num	int(10) DEFAULT '0' NOT NULL,
-date char(10),
 primary key (card_id)
 );
 
