@@ -15,7 +15,7 @@
  
 
  <body class="bg-primary">
-	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true" data-modalindex="0">
+	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -38,8 +38,11 @@
 	<div class="modal fade" tabindex="-1" id="adjust" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<input class="title form-control">
-				<button id="btn-adj" type="button" class="btn btn-default" data-dismiss="modal">Adjust</button>
+				<div class="modal-body">
+					<h6>Adjust Name</h6>
+					<input class="title form-control">
+					<button id="btn-adj" type="button" class="btn btn-default" data-dismiss="modal">Adjust</button>
+				</div>
 			</div>
 		</div>
 	</div>
