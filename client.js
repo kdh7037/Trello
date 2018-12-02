@@ -1,10 +1,12 @@
-function createHiddenInput(name, value){
-    var temp=document.createElement("input");
-    temp.setAttribute("type","hidden");
-    temp.setAttribute("name",name);
-    temp.setAttribute("value",value);
-  return temp;
-}
+    var socket = new WebSocket("ws://localhost:7857");
+
+    function createHiddenInput(name, value){
+        var temp=document.createElement("input");
+        temp.setAttribute("type","hidden");
+        temp.setAttribute("name",name);
+        temp.setAttribute("value",value);
+    return temp;
+    }
 
     var modal_listnum = "0";
     var modal_cardnum = "0";
@@ -53,7 +55,7 @@ function createHiddenInput(name, value){
         $(this).on("click", "#btn-add-card", function () {
             var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
             $(this).parent().find(".card-body").first().append(temp);
-
+            /*
             var form=document.createElement("form");
             form.setAttribute("method","post");
             form.setAttribute("action","/add-list.php");
@@ -63,15 +65,12 @@ function createHiddenInput(name, value){
             form.appendchild(parentList);
 
             document.body.appendChild(form);
-            form.submit();
+            form.submit();*/
         });
     }); 
 
-    var socket ;
-    socket = new WebSocket("ws://www.example.com/socketserver", "protocolOne");
-
     socket.onopen = function (event) {
-
+        socket.send()
     }
 
     socket.onmessage = function (event) {
@@ -110,15 +109,15 @@ function createHiddenInput(name, value){
                     modify_description(command[2],command[3]);
                 }
             break;
-            case "delete":
-                if(command[1]=="list"){
-                    //[2]는 listnum
-                    delete_card(command[2]);
-                }
-                else if(command[1]=="card"){
-                    //[2]는 cardnum
-                    delete_card(command[2]);
-                }
+            case "swap":
+                if(command[1] == list){
+                    var temp = command[2];
+                    command[2] = command[3];
+                    command[3] = temp;
+                }else if(command[1] == card);
+            break;
+            case "remove":
+
             break;
             case "add":
                 if(command[1]=="list"){
