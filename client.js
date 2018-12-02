@@ -67,8 +67,8 @@
     }); 
 
     socket.onopen = function (event) {
-        socket.send()
-    }
+        alert("연결 성공!");
+    };
 
     socket.onmessage = function (event) {
         console.log(event.data);
@@ -127,7 +127,7 @@
                 }
             break;
         }
-    }
+    };
 
     function add_list(listnum){
         $("#newlist").addClass('d-none');

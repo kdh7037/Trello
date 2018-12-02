@@ -46,7 +46,7 @@ set_time_limit(0);
 ob_implicit_flush();
 // create a streaming socket, of type TCP/IP
 $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-socket_set_option($sock, SOL_SOCKET, SO_REUSEADDR, 1);
+//socket_set_option($sock, SOL_SOCKET, SO_REUSEADDR, 1);
 socket_bind($sock, "0.0.0.0", 7867);
 socket_listen($sock);
 
@@ -71,7 +71,7 @@ while (true)
     if (in_array($sock, $read))
     {
         $clients[] = $newsock = socket_accept($sock);
-        if((int)@socket_recv($newsock,$data,2048,MSG_DONTWAIT)<0)
+        if(@socket_recv($newsock,$data,2048,0)<=0)
             continue;
 
         if(!handshake($newsock,$data,$sock))
