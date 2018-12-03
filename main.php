@@ -9,6 +9,7 @@
   <link rel="shortcut icon" href="images/favicon.ico" type="image/favicon.ico"/>
   <link rel="icon" href="images/favicon.ico" type="image/favicon.ico"/>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="client.js"></script>
  	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
  </head>
@@ -56,19 +57,21 @@
 			<h4>Trello</h4>
 		</div>
 	</nav>
-	<div class="d-inline-flex">
-		<div id="listform" class="d-inline-flex h-100">
+	<div class="d-inline-flex ">
+		<div id="listform" class="d-inline-flex">
 		</div>
 		<button id='btn-add-list' class="btn btn-secondary" style="width: 264px; height:40px; margin:4px">+ Add another list</button>
 	</div>
 
 	<!-- Don't delete it -->
 	<!-- list의 본체 -->
-	<div id="mylist" class="mylist card listcard m-1 p-2 bg-light d-none h-100" data-listindex="0">
+	<div id="mylist" class="mylist card listcard m-1 mb-auto p-2 bg-light d-none" data-listindex="0">
 		<div class="card-body p-0 w-100">
 			<div class="d-flex p-1">
 				<input type="text" class="d-inline listtitle form-control inv w-100 mt-0">
 				<button type="button" class="btn-delete-list close my-auto">X</button>
+			</div>
+			<div class="drag-zone" style="min-height:40px">
 			</div>
 		</div>
 		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>
