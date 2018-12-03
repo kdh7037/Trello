@@ -58,8 +58,8 @@ case "modify":
 	if($command[1] == 'list_name') { 			//modify\list_name\list_index\new_name
 		for($i=4; $i<count($command); $i++)		//이름에 \가 있을시 분리된 new_name 복구 
 			$command[3].="\\\\$command[$i]";
-		
-		$query = "update list				//이름 변경
+								//이름 변경
+		$query = "update list
 			set list = '$command[3]'
 			where list_id ='$command[2]'";
 		mysqli_query( $con, $query );
