@@ -1,5 +1,5 @@
 <?php
- echo "hello world!\n";
+ echo "Server is working!\n";
 function handshake($client, $headers, $socket) { //handshake for new user
 
 	if(preg_match("/Sec-WebSocket-Version: (.*)\r\n/", $headers, $match))
@@ -111,7 +111,7 @@ while (true)
 
         if(!handshake($newsock,$data,$sock)) continue;
 
-        socket_write($newsock, "There are ".(count($clients) - 1)." client(s) connected to the server\n");
+        //socket_write($newsock, "There are ".(count($clients) - 1)." client(s) connected to the server\n");
         socket_getpeername($newsock, $ip, $port);
         echo "New client connected: {$ip}\n";
 
@@ -148,7 +148,7 @@ while (true)
                 case "add": 
                     switch($command[1])
                     {
-                        case "card": //add\card\list_index\name
+                        case "card": //add\card\list_index
                             for($i=4; $i<count($command); $i++)			//이름에 \가 있을시 분리된 name 복구
                                 $command[3].="\\\\$command[$i]";
                                                         //리스트의 마지막 카드  id 추출(=row[0])
@@ -279,7 +279,7 @@ while (true)
                             mysqli_query( $con, $query );
                             echo "list name modified\n";
                             break;
-                        case "list_place": //modify\list_place\list_index\list_index
+                        case "list_place": //modify\list_place\list_index\list_left
                             if($command[2]==$command[3]) break; //list_index = list_index 일 경우 break;						
                         
                             $left_id = $command[3];				//left_id=list_left

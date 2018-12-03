@@ -78,7 +78,7 @@
 	</div>
 	
 	<!-- list를 만드는 폼-->
-	<div id="newlist" class=" card listcard d-none m-1 p-2 bg-light h-100">
+	<div id="newlist" class="card listcard d-none m-1 p-2 bg-light" style="height:100px">
 		<input id='listname'>
 			<div class="card-body p-0 w-100">
 			</div>
@@ -92,8 +92,6 @@
 			<button type="button" class="btn-adjust-name close my-auto">正</button>
 		</div>
 	</form>
-
-
 </body>
 
 </html>
