@@ -110,20 +110,25 @@
             var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",listnum);
             temp.appendTo("#listform");
             temp.find(".listtitle").val(value);
+        //밑에 좀 수정 많이 해야함
         $( "#listform" ).sortable({
                 items: $('.mylist')
         });
+        $('#sortable').on('sortupdate',function(){ 
+            var list_left = $(this).prev().attr("data-listindex");
+            alert(list_left);
+        });
+        $('#sortable').trigger('sortupdate'); // logs update called. 
     }
 
     function add_card(listnum, cardnum){
         var temp = $("#mycard").clone().removeClass('d-none').attr("id","").attr("data-cardindex",cardnum);
         $('[data-listindex='+listnum+'] .card-body .drag-zone').first().append(temp);
-        $(function() {
-            $( ".drag-zone" ).sortable({
-                items: $('.inner-card'),
-                connectWith: '.drag-zone'
-            }).disableSelection();
-        });
+       
+        $( ".drag-zone" ).sortable({
+            items: $('.inner-card'),
+            connectWith: '.drag-zone'
+        }).disableSelection();
     }
 
     function delete_list(listnum){
