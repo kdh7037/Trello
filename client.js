@@ -53,7 +53,7 @@
     };
 
     socket.onmessage = function (event) {
-        console.log(event.data);
+        alert(event.data);
         // 스왑, 제거, 추가
         var string = event.data;
         var command = string.split('\\');
@@ -88,8 +88,11 @@
                     modify_description(command[2],command[3]);
                 }
             break;
-            case "remove":
-
+            case "delete":
+                if(command[1]=="card")
+                    delete_card(command[2]);
+                else if(command[1]=="list")
+                    delete_list(command[2]);
             break;
             case "add":
                 if(command[1]=="list"){
