@@ -29,6 +29,9 @@
             socket.send("delete\\card\\"+cardnum);
         });
     });
+    $( '#listform' ).sortable({
+        items: $('.mylist')
+    });
     $(document).ready(function () {
 
         $('#listform')
@@ -162,6 +165,7 @@
     }
     //여기부터 작성해야합니다
     function modify_list_name(listnum, new_name){
+        
     }
 
     function modify_list_place(listnum, list_left){
