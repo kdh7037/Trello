@@ -18,7 +18,7 @@ case "add": 							//add\list\name
 		values ('$command[2]')";
 	mysqli_query( $con, $query );
 	
-	if ($row[0] != "") {					//리스트가 1개이상 있었을때
+	if ($row[0] != "") {					//리스트가 1개이상 있었을경우
 								//추가한 리스트 id 추출(=id[0])
 		$query = "select max(list_id) from list";
 		$result = mysqli_query( $con, $query );
