@@ -90,12 +90,12 @@ case "modify":
 			$first_id = mysqli_fetch_row($result);
 			
 			$query = "update list			//이동시킬 리스트를 첫번째 리스트 왼쪽으로 이동
-				set link_right = '$first_id'
+				set link_right = '$first_id[0]'
 				where list_id ='$command[2]'";
 			mysqli_query( $con, $query );
 			$query = "update list
 				set link_left = '$command[2]'
-				where list_id ='$first_id'";
+				where list_id ='$first_id[0]'";
 			mysqli_query( $con, $query );
 			$query = "update list
 				set link_left = '0'
