@@ -61,14 +61,10 @@ case "modify":
 			set list = '$command[3]'
 			where list_id ='$command[2]'";
 		mysqli_query( $con, $query );
-    }
+	}
 	else {							//modify\list_place\list_index\list_left
+		if($command[2]==$command[3]) break;
 		$left_id = $command[3];				//left_id=list_left
-		
-		$query = "select link_right			//list_left의 오른쪽 리스트 id 추출(=right_id[0])
-			from list where list_id = $command[3]";
-		$result = mysqli_query($con, $query);
-		$right_id = mysqli_fetch_row($result);
 		
 		$query = "select link_left, link_right 		//이동시킬 리스트 양옆 리스트 id 추출(=link[])
 			from list where list_id = $command[2]";
@@ -103,6 +99,11 @@ case "modify":
 			mysqli_query( $con, $query );
 		}
 		else {						//list_left > 0
+		$query = "select link_right			//list_left의 오른쪽 리스트 id 추출(=right_id[0])
+			from list where list_id = $command[3]";
+		$result = mysqli_query($con, $query);
+		$right_id = mysqli_fetch_row($result);
+			
 		$query = "update list				//이동시킬 리스트를 리스트 right_id[0], left_id사이로 이동
 			set link_right = '$command[2]'
 			where list_id ='$left_id'";
