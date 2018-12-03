@@ -64,8 +64,9 @@ case "modify":
 			where list_id ='$command[2]'";
 		mysqli_query( $con, $query );
 	}
-	else {							//modify\list_place\list_index\list_left
-		if($command[2]==$command[3]) break;
+	else {							//modify\list_place\list_index\list_index
+		if($command[2]==$command[3]) break;		//list_index = list_index 일 경우 break;
+		
 		$left_id = $command[3];				//left_id=list_left
 								//이동시킬 리스트 양옆 리스트 id 추출(=link[])
 		$query = "select link_left, link_right
