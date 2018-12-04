@@ -14,6 +14,7 @@ card_id	int(10) unsigned auto_increment,
 link_left int(10) DEFAULT '0' NOT NULL,
 link_right int(10) DEFAULT '0' NOT NULL,
 card varchar(50),
+card_description varchar(100),
 comment_num	int(10) DEFAULT '0' NOT NULL,
 primary key (card_id)
 );
