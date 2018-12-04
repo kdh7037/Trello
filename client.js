@@ -13,7 +13,7 @@
             socket.send("add\\card\\"+listnum);
         })
         .on("click", ".btn-delete-list", function () {
-            var listnum = $(this).parent().parent().attr("data-listindex");
+            var listnum = $(this).parent().parent().parent().attr("data-listindex");
             socket.send("delete\\list\\"+listnum);
         })
         .on("click", "#btn-delete-card", function () {
@@ -31,17 +31,22 @@
             $('#adjust').modal('show');
         })
 
-        //수정필요
         $("#adjust").on('click', '.btn-adj', function () {
             var newname= $(".title").val();
             socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
-            $('[data-cardindex='+modal_cardnum+']').find("span").val(adj);
+            $(".title").text("");
         })
 
         $("#btn-add-list").on("click", function () {
             var temp = $("#newlist").removeClass('d-none');
             temp.appendTo("#listform");
         });
+
+        $('[data-listindex]').change(function(){
+            var listnum = $(this).attr("data-listindex");
+            var name = $(this).find("input").val();
+            socket.send("modify\\list_name\\"+listnum+"\\"+name);
+        })
     });
 
     socket.onopen = function (event) {
@@ -110,13 +115,13 @@
         temp.find(".listtitle").val(name);
 
         $( "#listform" ).sortable({
-            items: $('.mylist')
+            //해결하자......
+            items: $('.mylist'),
+            update: function(e,ui){
+                var list_left = $(this).prev().attr("data-listindex");
+                alert($(this));
+            }
         });
-        $('#sortable').on('sortupdate',function(){ 
-            var list_left = $(this).prev().attr("data-listindex");
-            alert(list_left);
-        });
-        $('#sortable').trigger('sortupdate'); // logs update called.
     }
 
     function add_card(listnum,cardnum){
@@ -136,16 +141,15 @@
     function delete_card(cardnum){
         $('[data-cardindex='+cardnum+']').remove();
     }
-    //여기부터 작성해야합니다
+
     function modify_list_name(listnum, new_name){
-        
+        $('[data-listindex='+listnum+']').find("input").val(new_name);
     }
 
     function modify_list_place(listnum, list_left){
     }
 
     function modify_card_name(cardnum, new_name){
-        //수정요망
         $('[data-cardindex='+cardnum+']').find("span").text(new_name);
     }
 
