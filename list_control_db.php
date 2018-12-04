@@ -17,12 +17,12 @@ case "add": 							//add\list\name
 	$query = "insert into list (list)
 		values ('$command[2]')";
 	mysqli_query( $con, $query );
-	
+									//추가한 리스트 id 추출(=id[0])
+	$query = "select max(list_id) from list";
+	$result = mysqli_query( $con, $query );
+	$id = mysqli_fetch_row($result);
+
 	if ($row[0] != "") {					//리스트가 1개이상 있었을경우
-								//추가한 리스트 id 추출(=id[0])
-		$query = "select max(list_id) from list";
-		$result = mysqli_query( $con, $query );
-		$id = mysqli_fetch_row($result);
 								//추가한 리스트를 마지막 리스트 뒤로 이동
 		$query = "update list 				
 			set link_right = $id[0] 
