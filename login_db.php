@@ -18,9 +18,9 @@ if ($mem_info[0] == "") {
 	exit;
 }
 /*else {								//입력한 이메일과 비밀번호에 맞는 회원정보가 있을때
-	if (!session_is_registered('trello_logon')) {			//세션 하나 만들어서 로그인한 회원정보들 입력해야 되는데 아직 
-			session_register('trello_logon');
-			$trello_logon = array($row[0], $row[1], $row[2]);
+	if (!session_is_registered('trello_logon')) {			//세션 하나 만들어서 로그인한 회원정보들 
+			session_register('trello_logon');		//입력해야 되는데 이 세션함수는 이미 없어진 함수라길래
+			$trello_logon = array($row[0], $row[1], $row[2]);//
 	}
 }*/
 									//main.php로 이동
