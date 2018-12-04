@@ -22,10 +22,11 @@ primary key (card_id)
 
 CREATE TABLE comment (
 card_id int(10) DEFAULT '0' NOT NULL,
-comment_id int(10) DEFAULT '0' NOT NULL,
+comment_id int(10) unsigned auto_increment,
 mess varchar(100) NOT NULL,
 date char(10),
-user_id varchar(10) NOT NULL
+user_id varchar(10) NOT NULL,
+primary key (comment_id)
 );
 
 
