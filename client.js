@@ -114,14 +114,13 @@
         temp.find(".listtitle").val(name);
 
         $( "#listform" ).sortable({
-            //해결하자.....
             items: $('.mylist'),
-            update: function(){
-                var list_left = 0;
-                $(".mylist").attr("data-listindex");
-                alert(list_left);
+            update: function(event,ui){
+                var list_index = ui.item.attr("data-listindex");
+                var list_left = ui.item.prev().attr("data-listindex");
+                socket.send("modify\\list_place\\"+list_index+"\\"+list_left);
             }
-        });
+        }).disableSelection();
     }
 
     function add_card(listnum,cardnum){
@@ -130,7 +129,13 @@
        
         $( ".drag-zone" ).sortable({
             items: $('.inner-card'),
-            connectWith: '.drag-zone'
+            connectWith: '.drag-zone',
+            update: function(event,ui){
+                var card_index = ui.item.attr("data-cardindex");
+                var card_up = ui.item.prev().attr("data-cardindex");
+                alert(card_index+" "+card_up);
+                socket.send("modify\\card_place\\"+card_index+"\\"+card_up);
+            }
         }).disableSelection();
     }
 
@@ -147,13 +152,17 @@
     }
 
     function modify_list_place(listnum, list_left){
+        var list = $('[data-listindex='+listnum+']');
+        $('[data-listindex='+list_left+']').after(list);
     }
 
     function modify_card_name(cardnum, new_name){
         $('[data-cardindex='+cardnum+']').find("span").text(new_name);
     }
 
-    function modify_card_place(listnum, card_up){
+    function modify_card_place(cardnum, card_up){
+        var card = $('[data-cardindex='+cardnum+']');
+        $('[data-cardindex='+card_up+']').after(card);
     }
 
     function modify_description(cardnum, description){
@@ -163,8 +172,10 @@
 
     }
     function load_description(cardnum){
+        /*
         $('#listform').on('click', 'span', function () {
             modal_cardnum = $(this).parent().parent().attr("data-cardindex");
             $('#myModal').modal('show');
         })
+        */
     }
