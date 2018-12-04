@@ -17,12 +17,12 @@ case "add": 							//add\card\list_index\name
 	$query = "insert into card (list_id, card)
 		values ($command[2], '$command[3]')";
 	mysqli_query( $con, $query );
-	
+								//추가한 카드 id 추출(=id[0])
+	$query = "select max(card_id) from card";
+	$result = mysqli_query( $con, $query );
+	$id = mysqli_fetch_row($result);
+
 	if ($row[0] != "") {					//해당 리스트에 카드가 1개이상 있었을때
-																		//추가한 카드 id 추출(=id[0])
-		$query = "select max(card_id) from card";
-		$result = mysqli_query( $con, $query );
-		$id = mysqli_fetch_row($result);
 								//추가한 카드를 리스트의 마지막 카드 뒤로 이동
 		$query = "update card
 			set link_right = $id[0] 
@@ -69,7 +69,7 @@ case "modify":
 			if($command[2]==$command[3]) break;	//card_index = card_up 일 경우 break;
 		
 			$left_id = $command[3];			//left_id=card_up
-																						//이동시킬 카드 양옆 카드 id 추출(=link[])
+								//이동시킬 카드 양옆 카드 id 추출(=link[])
 			$query = "select link_left, link_right
 				from card where card_id = $command[2]";
 			$result = mysqli_query($con, $query);
