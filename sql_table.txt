@@ -33,8 +33,7 @@ primary key (comment_id)
 CREATE TABLE member(
 mem_id int(10) unsigned auto_increment,
 mem_name varchar(20) DEFAULT '' NOT NULL,
-mem_email varchar(50),
-mem_password varchar(20) DEFAULT '' NOT NULL,
-primary key (mem_id),
-primary key (mem_email)
+mem_email varchar(50) NOT NULL,
+mem_password varchar(20) NOT NULL,
+primary key (mem_id)
 );
