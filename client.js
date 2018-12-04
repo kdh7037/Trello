@@ -17,7 +17,6 @@
             socket.send("delete\\list\\"+listnum);
         })
         .on("click", "#btn-delete-card", function () {
-            //수정해야함
             var cardnum = $('form').attr("data-cardindex");
             socket.send("delete\\card\\"+cardnum);
         });
@@ -115,11 +114,12 @@
         temp.find(".listtitle").val(name);
 
         $( "#listform" ).sortable({
-            //해결하자......
+            //해결하자.....
             items: $('.mylist'),
-            update: function(e,ui){
-                var list_left = $(this).prev().attr("data-listindex");
-                alert($(this));
+            update: function(){
+                var list_left = 0;
+                $(".mylist").attr("data-listindex");
+                alert(list_left);
             }
         });
     }
