@@ -66,7 +66,7 @@
 	<!-- Don't delete it -->
 	<!-- list의 본체 -->
 	<div id="mylist" class="mylist card listcard m-1 mb-auto p-2 bg-light d-none" data-listindex="0">
-		<div class="card-body p-0 w-100">
+		<div class="drag-body card-body p-0 w-100">
 			<div class="d-flex p-1">
 				<input type="text" class="d-inline listtitle form-control inv w-100 mt-0">
 				<button type="button" class="btn-delete-list close my-auto">X</button>

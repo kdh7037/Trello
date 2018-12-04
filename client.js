@@ -43,13 +43,6 @@
             temp.appendTo("#listform");
         });
     });
-    
-    jQuery(function ($) {
-        $(this).on("click", "#btn-add-card", function () {
-            var temp = $("#mycard").clone().removeClass('d-none').attr("id","");
-            $(this).parent().find(".card-body").first().append(temp);
-        });
-    }); 
 
     socket.onopen = function (event) {
         alert("연결 성공!");
@@ -103,8 +96,8 @@
                     add_list(command[2], command[3]);
                 }
                 else if(command[1]=="card"){
-                    //[2]는 name [3]는 listnum [4]은 cardnum
-                    add_card(command[2], command[3], command[4]);
+                    //[2]는 listnum [3]은 cardnum
+                    add_card(command[2], command[3]);
                 }
             break;
         }
@@ -112,13 +105,12 @@
 
     function add_list(name, listnum){
         $("#newlist").addClass('d-none');
-            var value = $('#listname').val();
-            var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",listnum);
-            temp.appendTo("#listform");
-            temp.find(".listtitle").val(name);
+        var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",listnum);
+        temp.appendTo("#listform");
+        temp.find(".listtitle").val(name);
 
-            $( "#listform" ).sortable({
-                items: $('.mylist')
+        $( "#listform" ).sortable({
+            items: $('.mylist')
         });
         $('#sortable').on('sortupdate',function(){ 
             var list_left = $(this).prev().attr("data-listindex");
@@ -127,9 +119,9 @@
         $('#sortable').trigger('sortupdate'); // logs update called.
     }
 
-    function add_card(name, listnum, cardnum){
+    function add_card(listnum,cardnum){
         var temp = $("#mycard").clone().removeClass('d-none').attr("id","").attr("data-cardindex",cardnum);
-        $('[data-listindex='+listnum+'] .card-body .drag-zone').first().append(temp);
+        $('[data-listindex='+listnum+'] .drag-zone').append(temp);
        
         $( ".drag-zone" ).sortable({
             items: $('.inner-card'),
@@ -154,7 +146,7 @@
 
     function modify_card_name(cardnum, new_name){
         //수정요망
-        $('[data-cardindex='+cardnum+']').find("span").html(new_name);
+        $('[data-cardindex='+cardnum+']').find("span").text(new_name);
     }
 
     function modify_card_place(listnum, card_up){
