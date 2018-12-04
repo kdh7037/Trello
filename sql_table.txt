@@ -26,7 +26,7 @@ card_id int(10) DEFAULT '0' NOT NULL,
 comment_id int(10) DEFAULT '0' NOT NULL,
 mess varchar(100) NOT NULL,
 date char(10),
-user_name varchar(10) NOT NULL
+user_id varchar(10) NOT NULL
 );
 
 
