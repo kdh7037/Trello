@@ -36,7 +36,7 @@ $query = "insert into member
 	 		  ');
 }
 else {						//데이터베이스에 mem_email 가 이미 존재할때
-						//알림문 출력 
+						//알림문 출력 후 뒤로가기
 	echo("
 				 <script>
 				 window.alert('이미 존재하는 이메일입니다.');
