@@ -2,7 +2,7 @@ CREATE TABLE list(
 list_id int unsigned auto_increment,
 link_left int(10) DEFAULT '0' NOT NULL,
 link_right int(10) DEFAULT '0' NOT NULL,
-list varchar(50),
+list varchar(50) DEFAULT '' NOT NULL,
 card_num int(10) DEFAULT '0' NOT NULL,
 primary key (list_id)
 );
@@ -13,8 +13,8 @@ list_id int(10) DEFAULT '0' NOT NULL,
 card_id	int(10) unsigned auto_increment,
 link_left int(10) DEFAULT '0' NOT NULL,
 link_right int(10) DEFAULT '0' NOT NULL,
-card varchar(50),
-card_description varchar(100),
+card varchar(50) DEFAULT '' NOT NULL,
+card_description varchar(100) DEFAULT '' NOT NULL,
 comment_num	int(10) DEFAULT '0' NOT NULL,
 primary key (card_id)
 );
@@ -24,7 +24,7 @@ primary key (card_id)
 CREATE TABLE comment (
 card_id int(10) DEFAULT '0' NOT NULL,
 comment_id int(10) unsigned auto_increment,
-mess varchar(100) NOT NULL,
+mess varchar(100) DEFAULT '' NOT NULL,
 date char(10),
 user_id varchar(10) NOT NULL,
 primary key (comment_id)
