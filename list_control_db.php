@@ -17,7 +17,7 @@ case "add": 							//add\list\name
 	$query = "insert into list (list)
 		values ('$command[2]')";
 	mysqli_query( $con, $query );
-									//추가한 리스트 id 추출(=id[0])
+								//추가한 리스트 id 추출(=id[0])
 	$query = "select max(list_id) from list";
 	$result = mysqli_query( $con, $query );
 	$id = mysqli_fetch_row($result);
