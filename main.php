@@ -46,10 +46,13 @@
 	<div class="modal fade" tabindex="-1" id="adjust" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-body">
+				<div class="modal-header">
 					<h6>Adjust Name</h6>
+					<button type="button" class="close" data-dismiss="modal">×</button>
+				</div>
+				<div class="modal-body">
 					<input class="title form-control">
-					<button id="btn-adj" type="button" class="btn btn-default" data-dismiss="modal">Adjust</button>
+					<button id="btn-adj" type="button" class="btn btn-default">Adjust</button>
 				</div>
 			</div>
 		</div>

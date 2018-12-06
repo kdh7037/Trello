@@ -45,7 +45,7 @@
         $("#adjust").on('click', '.btn-adj', function () {
             var newname= $(".title").val();
             socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
-            $(".title").text("");
+            $(".title").val("");
         })
 
         $("#btn-add-list").on("click", function () {
