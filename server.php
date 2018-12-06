@@ -142,7 +142,7 @@ while (true)
         {
             $decoded_data=unmask($data);
             echo " send {$decoded_data}\n";
-
+            $send_data=$decoded_data;
             $command=preg_split("/[\\\\]/",$decoded_data);
             switch ($command[0]) {
                 case "add": 
@@ -157,15 +157,15 @@ while (true)
                             $result = mysqli_query($con, $query);
                             $row = mysqli_fetch_row($result);
                                                         //해당 리스트에 카드 추가
-                            $query = "insert into card (list_id, card)
-                                values ($command[2], '$command[3]')";
+                            $query = "insert into card (list_id)
+                                values ($command[2])";
                             mysqli_query( $con, $query );
-                            
+                            //추가한 카드 id 추출(=id[0])
+                            $query = "select max(card_id) from card";
+                            $result = mysqli_query( $con, $query );
+                            $id = mysqli_fetch_row($result);
                             if ($row[0] != "") {					//해당 리스트에 카드가 1개이상 있었을때
-                                                        //추가한 카드 id 추출(=id[0])
-                                $query = "select max(card_id) from card";
-                                $result = mysqli_query( $con, $query );
-                                $id = mysqli_fetch_row($result);
+                                                        
                                                         //추가한 카드를 리스트의 마지막 카드 뒤로 이동
                                 $query = "update card 				
                                     set link_right = $id[0] 
@@ -176,6 +176,7 @@ while (true)
                                     where card_id = $id[0]";
                                 mysqli_query( $con, $query );
                             }
+                            $send_data.="\\".$id[0];
                             echo "card added to list\n";
                             break;
                         case "list":    //add\list\name
@@ -190,12 +191,12 @@ while (true)
                             $query = "insert into list (list)
                                 values ('$command[2]')";
                             mysqli_query( $con, $query );
-                            
+                            //추가한 리스트 id 추출(=id[0])
+                            $query = "select max(list_id) from list";
+                            $result = mysqli_query( $con, $query );
+                            $id = mysqli_fetch_row($result);
                             if ($row[0] != "") {					//리스트가 1개이상 있었을경우
-                                                        //추가한 리스트 id 추출(=id[0])
-                                $query = "select max(list_id) from list";
-                                $result = mysqli_query( $con, $query );
-                                $id = mysqli_fetch_row($result);
+                                                        
                                                         //추가한 리스트를 마지막 리스트 뒤로 이동
                                 $query = "update list 				
                                     set link_right = $id[0] 
@@ -206,6 +207,7 @@ while (true)
                                     where list_id = $id[0]";
                                 mysqli_query( $con, $query );
                             }
+                            $send_data.="\\".$id[0];
                             echo "list added to workspace\n";
                             break;
                             default:
@@ -259,7 +261,6 @@ while (true)
                                 where link_left = $command[1]";
                             mysqli_query( $con, $query );
                             echo "list deleted from workspace\n";
-                            $send_data=$decoded_data;
                             break;
                         default:
                             echo "Error: $decoded_data\n";
@@ -455,7 +456,7 @@ while (true)
                 {
                     if ($send_sock == $sock)
                         continue;
-                    $encoded_data=encode($decoded_data);
+                    $encoded_data=encode($send_data);
                     socket_write($send_sock, $encoded_data);
                 } // end of broadcast foreach
         }
