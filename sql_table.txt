@@ -22,6 +22,7 @@ primary key (card_id)
 
 
 CREATE TABLE comment (
+list_id int(10) DEFAULT '0' NOT NULL,
 card_id int(10) DEFAULT '0' NOT NULL,
 comment_id int(10) unsigned auto_increment,
 mess varchar(100) DEFAULT '' NOT NULL,
