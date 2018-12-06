@@ -13,9 +13,12 @@ case "add": 							//add\comment\card_index\member_index\string
 		where card_id = $command[2]";
 	$result = mysqli_query($con, $query);
 	$list_id = mysqli_fetch_row($result);
+								//현재 시간 추출(=$today)
+	$timestamp = strtotime("+17 hours");
+	$today = date("Y/m/d/H/i/s", $timestamp);
 								//해당 카드에 댓글 추가
-	$query = "insert into comment (list_id, card_id, user_id, mess)
-		values ($list_id[0] ,$command[2], $command[3], '$command[4]')";
+	$query = "insert into comment (list_id, card_id, user_id, mess, date)
+		values ($list_id[0] ,$command[2], $command[3], '$command[4]', '$today')";
 	mysqli_query( $con, $query );
 	break;
 case "delete":							//delete\comment_index
