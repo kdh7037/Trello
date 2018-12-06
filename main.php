@@ -54,7 +54,7 @@
 				</div>
 				<div class="modal-body">
 					<input class="title form-control">
-					<button id="btn-adj" type="button" class="btn btn-default">Adjust</button>
+					<button id="btn-adj" class="btn btn-default">Adjust</button>
 				</div>
 			</div>
 		</div>

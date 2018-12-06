@@ -19,8 +19,14 @@
         .on("click", "#btn-delete-card", function () {
             var cardnum = $('form').attr("data-cardindex");
             socket.send("delete\\card\\"+cardnum);
+        })
+        .on("click", '#btn-adj', function () {
+            var newname= $('.title').val();
+            alert(modal_cardnum);
+            socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
         });
     });
+
 
     $(document).ready(function () {
 
@@ -41,12 +47,6 @@
             var string = $('.description-input').val();
             socket.send("load\\card\\"+modal_cardnum);
         });
-
-        $("#adjust").on('click', '.btn-adj', function () {
-            var newname= $(".title").val();
-            socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
-            $(".title").val("");
-        })
 
         $("#btn-add-list").on("click", function () {
             var temp = $("#newlist").removeClass('d-none');
