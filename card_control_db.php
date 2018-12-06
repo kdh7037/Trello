@@ -44,6 +44,10 @@ case "delete":							//delete\card_index
 	$query = "delete from card
 		where card_id ='$command[1]'";
 	mysqli_query( $con, $query );
+								//해당 카드의 모든댓글 삭제
+	$query = "delete from comment 
+		where card_id = $command[1]";
+	mysqli_query( $con, $query );
 								//삭제된 카드 양옆 카드 연결
 	$query = "update card
 		set link_right = $link[1] 
