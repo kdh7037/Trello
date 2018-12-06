@@ -8,9 +8,14 @@ switch ($command[0]) {
 case "add": 							//add\comment\card_index\member_index\string
 	for($i=5; $i<count($command); $i++)			//내용에 \가 있을시 분리된 string 복구
 		$command[4].="\\\\$command[$i]";
+								//해당 카드의 list_id 추출(=list_id[0])
+	$query = "select list_id from card
+		where card_id = $command[2]";
+	$result = mysqli_query($con, $query);
+	$list_id = mysqli_fetch_row($result);
 								//해당 카드에 댓글 추가
-	$query = "insert into comment (card_id, user_id, mess)
-		values ($command[2], $command[3], '$command[4]')";
+	$query = "insert into comment (list_id, card_id, user_id, mess)
+		values ($list_id[0] ,$command[2], $command[3], '$command[4]')";
 	mysqli_query( $con, $query );
 	break;
 case "delete":							//delete\comment_index
