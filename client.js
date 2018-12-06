@@ -1,7 +1,7 @@
     var socket = new WebSocket("ws://localhost:7867");
 
-    var modal_listnum = "0";
-    var modal_cardnum = "0";
+    var modal_listnum = 0;
+    var modal_cardnum = 0;
 
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
@@ -13,7 +13,7 @@
             socket.send("add\\card\\"+listnum);
         })
         .on("click", ".btn-delete-list", function () {
-            var listnum = $(this).parent().parent().attr("data-listindex");
+            var listnum = $(this).parent().parent().parent().attr("data-listindex");
             socket.send("delete\\list\\"+listnum);
         })
         .on("click", "#btn-delete-card", function () {
@@ -25,7 +25,7 @@
     $(document).ready(function () {
 
         $('#listform')
-        .on('click', 'button.btn-adjust-name', function () {
+        .on('click', '.btn-adjust-name', function () {
             modal_cardnum = $(this).parent().parent().attr("data-cardindex");
             $('#adjust').modal('show');
         })

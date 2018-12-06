@@ -86,7 +86,7 @@ socket_bind($sock, "0.0.0.0", 7867);
 socket_listen($sock);
 
 //connect to db
-$con = mysqli_connect( "localhost", "root", "pw" );
+$con = mysqli_connect( "localhost", "root", "1841aa" );
 mysqli_select_db( $con, "workspace");
 // create a list of all the clients that will be connected to us..
 // add the listening socket to this list
