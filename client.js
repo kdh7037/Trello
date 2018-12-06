@@ -29,6 +29,18 @@
             modal_cardnum = $(this).parent().parent().attr("data-cardindex");
             $('#adjust').modal('show');
         })
+        .on('click', 'span', function () {
+            modal_cardnum = $(this).parent().parent().attr("data-cardindex");
+            $('#myModal').modal('show');
+            var temp = $(this).text();
+            $('#myModal').find('h4').text(temp);
+            socket.send("load\\description\\"+modal_cardnum);
+        })
+        //수정요함
+        .on("click", "#save-description", function () {
+            var string = $('.description-input').val();
+            socket.send("load\\card\\"+modal_cardnum);
+        });
 
         $("#adjust").on('click', '.btn-adj', function () {
             var newname= $(".title").val();
@@ -63,8 +75,8 @@
                     load_workspace();
                 }
                 else if(command[1] == "description"){
-                    //[2]는 cardnum;
-                    load_description(command[2]);
+                    //[2]는 cardnum, [3]은 description string
+                    load_description(command[2],command[3]);
                 } 
             case "modify":
                 if(command[1] == "list_name"){
@@ -166,16 +178,12 @@
     }
 
     function modify_description(cardnum, description){
-
+        
     }
     function load_workspace(){
 
     }
-    function load_description(cardnum){
-        /*
-        $('#listform').on('click', 'span', function () {
-            modal_cardnum = $(this).parent().parent().attr("data-cardindex");
-            $('#myModal').modal('show');
-        })
-        */
+    function load_description(cardnum, string){
+        modal_num = cardnum;
+        $('#myModal').find(".description-input").val(string);
     }

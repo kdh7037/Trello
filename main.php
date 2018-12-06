@@ -20,14 +20,21 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">card name</h4>
+					<h4 class="modal-title"></h4>
 					<button type="button" class="close" data-dismiss="modal">×</button>
 				</div>
 				<div class="modal-body">
 					<h6>Descript</h6>
-					<input class="form-control">
+					<input class=" description-input form-control">
+					<button type="button" id='save-description' class="btn btn-primary">Save</button>
 					<h6>Add comment</h6>
-					<input class="form-control">
+					<div class="add_comment">
+						<input class="form-control">
+						<button type="button" id='save-comment' class="btn btn-primary">Save</button>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<h6>Add comment</h6>
 				</div>
 				<div class="modal-footer">
 					<button type="button" id='btn-save-card' class="btn btn-default">Save</button>
