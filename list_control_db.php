@@ -44,6 +44,14 @@ case "delete":							//delete\list_index
 	$query = "delete from list
 		where list_id ='$command[1]'";
 	mysqli_query( $con, $query );
+								//해당 리스트의 모든 카드 삭제
+	$query = "delete from card 
+		where list_id = $command[1]";
+	mysqli_query( $con, $query );
+								//해당 리스트의 모든 카드댓글 삭제
+	$query = "delete from comment 
+		where list_id = $command[1]";
+	mysqli_query( $con, $query );
 								//삭제된 리스트 양옆 리스트 연결
 	$query = "update list
 		set link_right = $link[1] 
