@@ -92,8 +92,8 @@
                     modify_card_name(command[2],command[3]);
                 }
                 else if(command[1] == "card_place"){
-                    //[2]는 cardnum, [3]은 옮겨질 곳(위쪽)
-                    modify_card_place(command[2],command[3]);
+                    //[2]는 cardnum, [3]은 옮겨질 곳(위쪽), [4]는 listnum
+                    modify_card_place(command[2],command[3],command[4]);
                 }
                 else if(command[1] == "description"){
                     //[2]는 cardnum, [3]은 string
@@ -143,10 +143,10 @@
             items: $('.inner-card'),
             connectWith: '.drag-zone',
             update: function(event,ui){
+                var list_index = $(this).parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
-                alert(card_index+" "+card_up);
-                socket.send("modify\\card_place\\"+card_index+"\\"+card_up);
+                socket.send("modify\\card_place\\"+card_index+"\\"+card_up+"\\"+list_index);
             }
         }).disableSelection();
     }
@@ -172,7 +172,7 @@
         $('[data-cardindex='+cardnum+']').find("span").text(new_name);
     }
 
-    function modify_card_place(cardnum, card_up){
+    function modify_card_place(cardnum, card_up, listnum){
         var card = $('[data-cardindex='+cardnum+']');
         $('[data-cardindex='+card_up+']').after(card);
     }
