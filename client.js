@@ -1,4 +1,4 @@
-    var socket = new WebSocket("ws://localhost:7867");
+    var socket = new WebSocket("ws://121.130.151.64:7867");
 
     var modal_listnum = 0;
     var modal_cardnum = 0;
@@ -22,9 +22,16 @@
         })
         .on("click", '#btn-adj', function () {
             var newname= $('.title').val();
-            alert(modal_cardnum);
             socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
-        });
+        })
+        .on("click", '#save-description', function () {
+            var string= $('.input-comment').val();
+            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+id);
+        })
+        .on("click", '#save-comment', function () {
+            var string= $('.description-input').val();
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+string);
+        })
     });
 
 
@@ -115,6 +122,10 @@
                     //[2]는 listnum [3]은 cardnum
                     add_card(command[2], command[3]);
                 }
+                else if(command[1]=="comment"){
+                    //[2]는 cardnum [3]은 string [4]는 id
+                    add_comment(command[2], command[3], command[4]);
+                }
             break;
         }
     };
@@ -151,6 +162,15 @@
         }).disableSelection();
     }
 
+    function add_comment(cardnum, string, id){
+        
+
+        var temp = $("#mycomment").clone().removeClass('d-none');
+        $("#mycomment p").text(id);
+        temp.find(".comment-card").val(string);
+        temp.appendTo("#comment");
+        temp.find(".listtitle").val(name);
+    }
     function delete_list(listnum){
         $('[data-listindex='+listnum+']').remove();
     }
@@ -177,8 +197,8 @@
         $('[data-cardindex='+card_up+']').after(card);
     }
 
-    function modify_description(cardnum, description){
-        
+    function modify_description(cardnum, string){
+        $('[data-cardindex='+cardnum+']').find("description-input").val(string);
     }
     function load_workspace(){
 

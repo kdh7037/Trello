@@ -28,17 +28,18 @@
 					<input class=" description-input form-control">
 					<button type="button" id='save-description' class="btn btn-primary">Save</button>
 					<h6>Add comment</h6>
-					<div class="add_comment">
-						<input class="form-control">
+					<div class="add-comment">
+						<input class="input-comment form-control">
 						<button type="button" id='save-comment' class="btn btn-primary">Save</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<h6>ID 들어갈 공간</h6>
-					<input class="comment form-control">
+				<div id="comment" class="modal-footer">
+					<div id="mycomment" class="d-none">
+						<p>ID 들어갈 공간</p>
+						<input class="comment-card form-control">
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id='btn-save-card' class="btn btn-default">Save</button>
 					<button type="button" id='btn-delete-card' class="btn btn-default">Remove</button>
 				</div>
 			</div>
@@ -54,7 +55,7 @@
 				</div>
 				<div class="modal-body">
 					<input class="title form-control">
-					<button id="btn-adj" class="btn btn-default">Adjust</button>
+					<button type="button" id='btn-adj' class="btn btn-default">Adjust</button>
 				</div>
 			</div>
 		</div>
@@ -69,7 +70,7 @@
 			<h4>Trello</h4>
 		</div>
 	</nav>
-	<div class="d-inline-flex ">
+	<div class="d-inline-flex">
 		<div id="listform" class="d-inline-flex">
 		</div>
 		<button id='btn-add-list' class="btn btn-secondary" style="width: 264px; height:40px; margin:4px">+ Add another list</button>
