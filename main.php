@@ -60,7 +60,7 @@
 		</div>
 	</div>
 
-	<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info mb-3">
+	<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
 		<button type="button" class="btn btn-info btn-sm">home</button>
 		<div class="col-4 mx-auto text-center">
 			<h4>버튼 여기</h4>
