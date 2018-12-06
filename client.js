@@ -13,7 +13,7 @@
             socket.send("add\\card\\"+listnum);
         })
         .on("click", ".btn-delete-list", function () {
-            var listnum = $(this).parent().parent().parent().attr("data-listindex");
+            var listnum = $(this).parent().parent().attr("data-listindex");
             socket.send("delete\\list\\"+listnum);
         })
         .on("click", "#btn-delete-card", function () {

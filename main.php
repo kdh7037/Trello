@@ -34,7 +34,8 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<h6>Add comment</h6>
+					<h6>ID 들어갈 공간</h6>
+					<input class="comment form-control">
 				</div>
 				<div class="modal-footer">
 					<button type="button" id='btn-save-card' class="btn btn-default">Save</button>
@@ -43,6 +44,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="modal fade" tabindex="-1" id="adjust" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -58,7 +60,7 @@
 		</div>
 	</div>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
+	<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info mb-3">
 		<button type="button" class="btn btn-info btn-sm">home</button>
 		<div class="col-4 mx-auto text-center">
 			<h4>버튼 여기</h4>
