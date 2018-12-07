@@ -25,6 +25,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 					where (mem_email = '$_POST[mem_email]') and (mem_password = '$_POST[mem_password]')";
 	$result = mysqli_query($con, $query);
 	$mem_info = mysqli_fetch_row($result);
+	mysqli_close( $con );
 
 	if ($mem_info[0] == "") {			//입력한 이메일과 비밀번호에 맞는 회원정보가 없을때
 							//알림문 출력 후 뒤로가기
