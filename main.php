@@ -62,14 +62,20 @@
 	</div>
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
-		<button type="button" class="btn btn-info btn-sm">home</button>
-		<div class="col-4 mx-auto text-center">
-			<h4>버튼 여기</h4>
-		</div>
-		<div class="col-4 mx-auto text-center">
+		<div class=" mx-auto text-center">
+			<button type="button" class="col btn btn-info btn-sm">home</button>
+		</div>		
+		<div class="col mx-auto text-center">
 			<h4>Trello</h4>
 		</div>
+		<div class="col mx-auto text-center">
+			<h4>ID</h4>
+		</div>
+		<div class=" mx-auto text-center">
+			<button type="button" class="col btn btn-info btn-sm">Logout</button>
+		</div>
 	</nav>
+
 	<div class="d-inline-flex">
 		<div id="listform" class="d-inline-flex">
 		</div>

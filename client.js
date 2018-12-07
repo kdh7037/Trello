@@ -19,10 +19,12 @@
         .on("click", "#btn-delete-card", function () {
             var cardnum = $('form').attr("data-cardindex");
             socket.send("delete\\card\\"+cardnum);
+            $('#myModal').modal('hide');
         })
         .on("click", '#btn-adj', function () {
             var newname= $('.title').val();
             socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
+            $('#adjust').modal('hide');
         })
         .on("click", '#save-description', function () {
             var string= $('.input-comment').val();
@@ -163,8 +165,6 @@
     }
 
     function add_comment(cardnum, string, id){
-        
-
         var temp = $("#mycomment").clone().removeClass('d-none');
         $("#mycomment p").text(id);
         temp.find(".comment-card").val(string);
@@ -177,6 +177,7 @@
 
     function delete_card(cardnum){
         $('[data-cardindex='+cardnum+']').remove();
+        $('#myModal').find('input').val("");
     }
 
     function modify_list_name(listnum, new_name){
