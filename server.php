@@ -1,5 +1,7 @@
 <?php
- echo "Server is working!\n";
+session_start();
+
+echo "Server is working!\n";
 
 function handshake($client, $headers, $socket) { //handshake for new user
 
@@ -76,8 +78,6 @@ function encode($text) { //encode the data before sending to clients
 error_reporting(E_ALL);
 /* Allow the script to hang around waiting for connections. */
 set_time_limit(0);
-
-session_start();
 
 /* Turn on implicit output flushing so we see what we're getting as it comes in. */
 ob_implicit_flush();
