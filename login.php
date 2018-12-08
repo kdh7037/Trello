@@ -88,7 +88,8 @@ echo("
                     <input type='checkbox' name='remember' value='remember-me' checked='checked'> Remember me
                 </label>
             </div>
-            <button class='btn btn-lg btn-primary btn-block' type='submit'>로 그 인</button>
+			<button class='btn btn-lg btn-primary btn-block' type='submit'>로 그 인</button>
+			<button class='btn btn-lg btn-light btn-block' type='submit'>회 원 가 입</button>
         </form>
 
     </div>

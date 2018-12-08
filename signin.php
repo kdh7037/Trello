@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <form class="form-signin" method="post" action="signin_db.php">
-            <center><h2 class="form-signin-heading">Create a Trello Account</h2></center>
+            <h2 class="form-signin-heading">Create a Trello Account</h2>
             <label>Name</label>
             <label for="inputName" class="sr-only">Name</label>
             <input type="id" name="mem_id" id="inputName" class="form-control" value="">
