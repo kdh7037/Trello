@@ -43,7 +43,7 @@
             date += ' ' + Now.getHours();
             date += ':' + Now.getMinutes();
             date += ':' + Now.getSeconds();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+user_id+"\\"+date);
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string);
         })
     });
 
@@ -60,13 +60,12 @@
             $('#myModal').modal('show');
             var temp = $(this).text();
             $('#myModal').find('h4').text(temp);
-            socket.send("load\\card_detail\\"+modal_cardnum+user_id);
-            socket.send("load\\description\\"+modal_cardnum);
+            socket.send("load\\card_detail\\"+modal_cardnum);
         })
-        //수정요함
+
         .on("click", "#save-description", function () {
             var string = $('.description-input').val();
-            socket.send("load\\card\\"+modal_cardnum);
+            socket.send("modify\\description\\"+modal_cardnum+"\\"+string);
         });
 
         $("#btn-add-list").on("click", function () {
@@ -98,19 +97,23 @@
                     while(command[a].indexOF("list_info") !== -1){
                         var listsplit = string.split(';;');
                         add_list(listsplit[2],listsplit[1]);
-                        for(var b = 3; listsplit[b]='card_info';b+=3){
+                        for(var b = 3 ; listsplit[b]=='card_info' ; b+=3){
                             add_card(listsplit[1],listsplit[b+1]);
                             modify_card_name(listsplit[b+1],listsplit[b+2]);
                         }
                     }
                 }
+                /*
                 else if(command[1] == "description"){
                     //[2]는 cardnum, [3]은 description string
                     load_description(command[2],command[3]);
                 } 
+                */
                 else if(command[1] == "card_detail"){
-                    //id date message
-                    load_card_detail(command[2],command[3],command[4]);  
+                    
+                    for(var a = 5 ; command[a]==undefined ; a+=4)
+                        // card_id string id date commentnum
+                        add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3]);  
                 }
             case "modify":
                 if(command[1] == "list_name"){
@@ -151,7 +154,7 @@
                     add_card(command[2], command[3]);
                 }
                 else if(command[1]=="comment"){
-                    //[2]는 cardnum [3]은 string [4]는 id [5]는 date [6]은 commentnum
+                    //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 string
                     add_comment(command[2], command[3], command[4], command[5], command[6]);
                 }
             break;
@@ -194,7 +197,7 @@
         }).disableSelection();
     }
 
-    function add_comment(cardnum, string, id, date, commentnum){
+    function add_comment(cardnum, id, date, commentnum, string){
         var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
         $("#mycomment p").text(id);
         temp.find(".comment-card").val(string);
