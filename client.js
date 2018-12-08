@@ -34,7 +34,15 @@
         })
         .on("click", '#save-comment', function () {
             var string= $('.description-input').val();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+string);
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+date);
+            var Now = new Date();
+            var date = Now.getFullYear();
+            date += '-' + Now.getMonth() + 1 ;
+            date += '-' + Now.getDate();
+            date += ' ' + Now.getHours();
+            date += ':' + Now.getMinutes();
+            date += ':' + Now.getSeconds();
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+date);
         })
     });
 
@@ -142,7 +150,7 @@
                     add_card(command[2], command[3]);
                 }
                 else if(command[1]=="comment"){
-                    //[2]는 cardnum [3]은 string [4]는 id
+                    //[2]는 cardnum [3]은 string [4]는 date
                     add_comment(command[2], command[3], command[4]);
                 }
             break;
@@ -172,10 +180,10 @@
         $('[data-listindex='+listnum+'] .drag-zone').append(temp);
        
         $( ".drag-zone" ).sortable({
-            items: $('.inner-card'),
+            items: $(".inner-card"),
             connectWith: '.drag-zone',
             update: function(event,ui){
-                var list_index = $(this).parent().attr("data-listindex");
+                var list_index = $(this).parent().parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
                 if (card_up === undefined)
@@ -185,12 +193,13 @@
         }).disableSelection();
     }
 
-    function add_comment(cardnum, string, id){
-        var temp = $("#mycomment").clone().removeClass('d-none');
+    function add_comment(cardnum, string, date, commentnum){
+        var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
         $("#mycomment p").text(id);
         temp.find(".comment-card").val(string);
         temp.appendTo("#comment");
         temp.find(".listtitle").val(name);
+        temp.find(".small").val(date);
     }
     function delete_list(listnum){
         $('[data-listindex='+listnum+']').remove();

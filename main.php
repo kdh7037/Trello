@@ -46,10 +46,10 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 					</div>
 				</div>
 				<div id="comment" class="modal-footer">
-					<div id="mycomment" data-commentindex="0">
+					<div id="mycomment" data-commentindex="0" style="width:500">
 						<p>ID 들어갈 공간</p>
 						<input class="comment-card form-control">
-						<small class="text-muted">Last updated 3 mins ago</small>
+						<small class="date text-muted">Last updated 3 mins ago</small>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -106,6 +106,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 				<button type="button" class="btn-delete-list close my-auto">X</button>
 			</div>
 			<div class="drag-zone" style="min-height:40px">
+				<div class="trash d-none"></div>
 			</div>
 		</div>
 		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>

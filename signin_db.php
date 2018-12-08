@@ -14,7 +14,7 @@ if( !$mem_name  || !$mem_email  || !$mem_password) {
 	exit;
   }
 						//데이터메이스 연결
-$con = mysqli_connect( "localhost", "root", "qlzkqaqg123" );
+$con = mysqli_connect( "localhost", "root", "1841aa" );
 mysqli_select_db( $con, "workspace");
 						//데이터베이스에 mem_email 가 이미 존재하면 그 정보 추출(=row[0])
 $query = "select * from member where mem_email='".$mem_email."'";

@@ -18,7 +18,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 		exit;
 	}
 	session_start();						//세션 시작
-	$con = mysqli_connect( "localhost", "root", "qlzkqaqg123" );	//데이터베이스 연결
+	$con = mysqli_connect( "localhost", "root", "1841aa" );	//데이터베이스 연결
 	mysqli_select_db( $con, "workspace");
 																		//입력한 이메일과 비밀번호에 맞는 회원정보 추출(=mem_info[])
 	$query = "select mem_id, mem_name,  mem_email, mem_password from member 
