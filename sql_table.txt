@@ -27,7 +27,8 @@ card_id int(10) DEFAULT '0' NOT NULL,
 comment_id int(10) unsigned auto_increment,
 mess varchar(100) DEFAULT '' NOT NULL,
 date char(19),
-user_id int(10) NOT NULL,
+user_name varchar(20) DEFAULT '' NOT NULL,
+user_email varchar(50) NOT NULL,
 primary key (comment_id)
 );
 
