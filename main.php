@@ -1,6 +1,12 @@
 <?php
+session_start();					//세션 시작
 if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php로 이동
-	header("Location:http://127.0.0.1/login.php");
+	echo('
+		<script>
+		alert("로그인이 필요합니다.");
+		location.href="http://127.0.0.1/login.php";
+		</script>
+		');
 }
 ?>
 
@@ -78,7 +84,9 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 			<h4>ID</h4>
 		</div>
 		<div class=" mx-auto text-center">
-			<button type="button" class="col btn btn-info btn-sm">Logout</button>
+			<form class="form-signin" method="post" action="logout.php">
+				<button type="submit" class="col btn btn-info btn-sm">Logout</button>
+			</form>
 		</div>
 	</nav>
 
