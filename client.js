@@ -2,7 +2,8 @@
 
     var modal_listnum = 0;
     var modal_cardnum = 0;
-    var id;
+    var user_id='<? echo $user_id;?>';
+    var user_email='<? echo $user_email;?>';
 
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
@@ -30,7 +31,7 @@
         })
         .on("click", '#save-description', function () {
             var string= $('.input-comment').val();
-            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+id);
+            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+user_id);
         })
         .on("click", '#save-comment', function () {
             var string= $('.description-input').val();
@@ -42,7 +43,7 @@
             date += ' ' + Now.getHours();
             date += ':' + Now.getMinutes();
             date += ':' + Now.getSeconds();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+date);
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+user_id+"\\"+date);
         })
     });
 
@@ -59,7 +60,7 @@
             $('#myModal').modal('show');
             var temp = $(this).text();
             $('#myModal').find('h4').text(temp);
-            socket.send("load\\card_detail\\"+modal_cardnum+id);
+            socket.send("load\\card_detail\\"+modal_cardnum+user_id);
             socket.send("load\\description\\"+modal_cardnum);
         })
         //수정요함
@@ -150,8 +151,8 @@
                     add_card(command[2], command[3]);
                 }
                 else if(command[1]=="comment"){
-                    //[2]는 cardnum [3]은 string [4]는 date
-                    add_comment(command[2], command[3], command[4]);
+                    //[2]는 cardnum [3]은 string [4]는 id [5]는 date [6]은 commentnum
+                    add_comment(command[2], command[3], command[4], command[5], command[6]);
                 }
             break;
         }
@@ -193,7 +194,7 @@
         }).disableSelection();
     }
 
-    function add_comment(cardnum, string, date, commentnum){
+    function add_comment(cardnum, string, id, date, commentnum){
         var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
         $("#mycomment p").text(id);
         temp.find(".comment-card").val(string);

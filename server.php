@@ -1,8 +1,14 @@
 <?php
+<<<<<<< HEAD
 
 session_start();
 
  echo "Server is working!\n";
+=======
+session_start();
+
+echo "Server is working!\n";
+>>>>>>> 43db7f091d1ad077620156f6105503e744d7d99a
 
 function handshake($client, $headers, $socket) { //handshake for new user
 
@@ -228,7 +234,7 @@ while (true)
                                 $list_id = mysqli_fetch_row($result);
                                                             //현재 시간 추출(=$today)
                                 $timestamp = strtotime("+17 hours");
-                                $today = date("Y/m/d/H/i/s", $timestamp);
+                                $today = date("Y-m-d H:i:s", $timestamp);
                                                             //해당 카드에 댓글 추가
                                 $query = "insert into comment (list_id, card_id, user_id, mess, date)
                                     values ($list_id[0] ,$command[2], $command[3], '$command[4]', '$today')";
