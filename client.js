@@ -18,11 +18,9 @@
         })
         .on("click", ".btn-delete-list", function () {
             var listnum = $(this).parent().parent().parent().attr("data-listindex");
-            socket.send("delete"+split_0;
-    var user_id='<? echo $user_id;?>';
-    var user_email='<? echo $user_email;?>';
-    var split_split = "dvia3Fivs2QQIV3v"
-
+            socket.send("delete"+split_split+"list"+split_split+listnum);
+        })
+    })
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
             var name = $('#listname').val();
