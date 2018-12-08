@@ -27,7 +27,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
  </head>
  
 
- <body class="bg-primary">
+ <body class="bg-primary" style="overflow:auto">
 	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -74,7 +74,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 		</div>
 	</div>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
+	<nav class="navbar fixed-top navbar-light bg-info mb-3">
 		<div class=" mx-auto text-center">
 			<button type="button" class="col btn btn-info btn-sm">home</button>
 		</div>		
@@ -91,7 +91,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 		</div>
 	</nav>
 
-	<div class="d-inline-flex">
+	<div class="d-inline-flex" style="margin-top:70px">
 		<div id="listform" class="d-inline-flex">
 		</div>
 		<button id='btn-add-list' class="btn btn-secondary" style="width: 264px; height:40px; margin:4px">+ Add another list</button>

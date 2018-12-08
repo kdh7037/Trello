@@ -1,14 +1,7 @@
 <?php
-<<<<<<< HEAD
-
-session_start();
-
- echo "Server is working!\n";
-=======
 session_start();
 
 echo "Server is working!\n";
->>>>>>> 43db7f091d1ad077620156f6105503e744d7d99a
 
 function handshake($client, $headers, $socket) { //handshake for new user
 
