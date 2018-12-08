@@ -84,7 +84,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 			<h4>ID</h4>
 		</div>
 		<div class=" mx-auto text-center">
-			<form class="form-signin" method="post" action="logout.php">
+			<form class="form-logout" method="post" action="logout.php">
 				<button type="submit" class="col btn btn-info btn-sm">Logout</button>
 			</form>
 		</div>
