@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php로 이동
+	header("Location:http://127.0.0.1/login.php");
+}
+?>
+
 <html lang="ko">
  <head>
  	<meta charset="UTF-8">
