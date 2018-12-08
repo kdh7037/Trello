@@ -2,7 +2,8 @@
 
     var modal_listnum = 0;
     var modal_cardnum = 0;
-    var id;
+    var user_id='<? echo $user_id;?>';
+    var user_email='<? echo $user_email;?>';
 
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
@@ -30,7 +31,7 @@
         })
         .on("click", '#save-description', function () {
             var string= $('.input-comment').val();
-            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+id);
+            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+user_id);
         })
         .on("click", '#save-comment', function () {
             var string= $('.description-input').val();
@@ -51,7 +52,7 @@
             $('#myModal').modal('show');
             var temp = $(this).text();
             $('#myModal').find('h4').text(temp);
-            socket.send("load\\card_detail\\"+modal_cardnum+id);
+            socket.send("load\\card_detail\\"+modal_cardnum+user_id);
             socket.send("load\\description\\"+modal_cardnum);
         })
         //수정요함
@@ -175,7 +176,7 @@
             items: $('.inner-card'),
             connectWith: '.drag-zone',
             update: function(event,ui){
-                var list_index = $(this).parent().attr("data-listindex");
+                var list_index = $(this).parent().parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
                 if (card_up === undefined)
