@@ -73,6 +73,7 @@
     });
 
     socket.onopen = function (event) {
+        socket.send("load\\workspace");
         alert("연결 성공!");
     };
 
@@ -87,7 +88,11 @@
                     var a=2;
                     while(command[a].indexOF("list_info") !== -1){
                         var listsplit = string.split(';;');
-                        listsplit[0];
+                        add_list(listsplit[2],listsplit[1]);
+                        for(var b = 3; listsplit[b]='card_info';b+=3){
+                            add_card(listsplit[1],listsplit[b+1]);
+                            modify_card_name(listsplit[b+1],listsplit[b+2]);
+                        }
                     }
                 }
                 else if(command[1] == "description"){
@@ -95,7 +100,8 @@
                     load_description(command[2],command[3]);
                 } 
                 else if(command[1] == "card_detail"){
-                    load_card_detail(command[2],command[3]);
+                    //id date message
+                    load_card_detail(command[2],command[3],command[4]);  
                 }
             case "modify":
                 if(command[1] == "list_name"){
@@ -216,15 +222,12 @@
     function modify_description(cardnum, string){
         $('[data-cardindex='+cardnum+']').find("description-input").val(string);
     }
-    function load_workspace(){
-
-    }
     function load_description(cardnum, string){
         modal_num = cardnum;
         $('#myModal').find(".description-input").val(string);
     }
     function load_card_detail(cardnum, string, id){
-
+        
     }
 
   //

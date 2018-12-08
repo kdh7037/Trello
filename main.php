@@ -40,9 +40,10 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 					</div>
 				</div>
 				<div id="comment" class="modal-footer">
-					<div id="mycomment" class="d-none" data-commentindex="0">
+					<div id="mycomment" data-commentindex="0">
 						<p>ID 들어갈 공간</p>
 						<input class="comment-card form-control">
+						<small class="text-muted">Last updated 3 mins ago</small>
 					</div>
 				</div>
 				<div class="modal-footer">
