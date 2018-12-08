@@ -4,37 +4,51 @@
     var modal_cardnum = 0;
     var user_id='<? echo $user_id;?>';
     var user_email='<? echo $user_email;?>';
+    var split_split = "dvia3Fivs2QQIV3v"
 
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
             var name = $('#listname').val();
             $('#listname').val("");
-            socket.send("add\\list\\"+name);
+            socket.send("add"+split_split+"list"+split_split+name);
         })
         .on("click", ".btn-add-card", function () {
             var listnum = $(this).parent().attr("data-listindex");
-            socket.send("add\\card\\"+listnum);
+            socket.send("add"+split_split+"card"+split_split+listnum);
         })
         .on("click", ".btn-delete-list", function () {
             var listnum = $(this).parent().parent().parent().attr("data-listindex");
-            socket.send("delete\\list\\"+listnum);
+            socket.send("delete"+split_0;
+    var user_id='<? echo $user_id;?>';
+    var user_email='<? echo $user_email;?>';
+    var split_split = "dvia3Fivs2QQIV3v"
+
+    jQuery(function () {
+        $(document).on("click", "#btn-new-list", function () {
+            var name = $('#listname').val();
+            $('#listname').val("");
+            socket.send("add"+split_split+"list"+split_split+name);
+        })
+        .on("click", ".btn-add-card", function () {
+            var listnum = $(this).parent().attr("data-listindex");
+            socket.send("add"+split_split+"card"+split_split+listnum);
+        })
+        .on("click", ".btn-delete-list", function () {
+            var listnum = $(this).parent().parent().parent().attr("data-listindex");
+            socket.send("delete"+split_split+"list"+split_split+listnum);
         })
         .on("click", "#btn-delete-card", function () {
             var cardnum = $('form').attr("data-cardindex");
-            socket.send("delete\\card\\"+cardnum);
+            socket.send("delete"+split_split+"card"+split_split+cardnum);
             $('#myModal').modal('hide');
         })
         .on("click", '#btn-adj', function () {
             var newname= $('.title').val();
-            socket.send("modify\\card_name\\"+modal_cardnum+"\\"+newname);
+            socket.send("modify"+split_split+"card_name"+split_split+modal_cardnum+split_split+newname);
             $('#adjust').modal('hide');
         })
-        .on("click", '#save-description', function () {
-            var string= $('.input-comment').val();
-            socket.send("modify\\description\\"+modal_cardnum+"\\"+string+"\\"+user_id);
-        })
         .on("click", '#save-comment', function () {
-            var string= $('.description-input').val();
+            var string= $('.input-comment').val();
             var Now = new Date();
             var date = Now.getFullYear();
             date += '-' + Now.getMonth() + 1 ;
@@ -42,7 +56,7 @@
             date += ' ' + Now.getHours();
             date += ':' + Now.getMinutes();
             date += ':' + Now.getSeconds();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string+"\\"+user_email);
+            socket.send("add"+split_split+"comment"+split_split+modal_cardnum+split_split+user_id+split_split+date+split_split+user_email+split_split+string);
         })
     });
 
@@ -59,12 +73,12 @@
             $('#myModal').modal('show');
             var temp = $(this).text();
             $('#myModal').find('h4').text(temp);
-            socket.send("load\\card_detail\\"+modal_cardnum);
+            socket.send("load"+split_split+"card_detail"+split_split+modal_cardnum);
         })
 
         .on("click", "#save-description", function () {
             var string = $('.description-input').val();
-            socket.send("modify\\description\\"+modal_cardnum+"\\"+string);
+            socket.send("modify"+split_split+"description"+split_split+modal_cardnum+split_split+string);
         });
 
         $("#btn-add-list").on("click", function () {
@@ -75,12 +89,12 @@
         $('[data-listindex]').change(function(){
             var listnum = $(this).attr("data-listindex");
             var name = $(this).find("input").val();
-            socket.send("modify\\list_name\\"+listnum+"\\"+name);
+            socket.send("modify"+split_split+"list_name"+split_split+listnum+split_split+name);
         })
     });
 
     socket.onopen = function (event) {
-        socket.send("load\\workspace");
+        socket.send("load"+split_split+"workspace");
         alert("연결 성공!");
     };
 
@@ -88,18 +102,22 @@
         alert(event.data);
         // 스왑, 제거, 추가
         var string = event.data;
-        var command = string.split('\\');
+        var command = string.split(split_split);
         switch(command[0]){
             case "load":
                 if(command[1] == "workspace"){
+
                     $('#main-id').child().text(user_id);
                     var a=2;
-                    while(command[a].indexOF("list_info") !== -1){
-                        var listsplit = string.split(';;');
-                        add_list(listsplit[2],listsplit[1]);
-                        for(var b = 3 ; listsplit[b]=='card_info' ; b+=3){
-                            add_card(listsplit[1],listsplit[b+1]);
-                            modify_card_name(listsplit[b+1],listsplit[b+2]);
+                    while(command[a] == "list_info"){
+                        var listsplit = command[++a].split('GdwiSEoRfXJsyiw');
+                         // $send_data.="split_split+"list_info"+split_split".$list_id[$i].$split_string.$list[$i].$split_string.$card_num[$i];
+                        add_list(listsplit[1],listsplit[0]);
+                        for(a=a+1; command[a] =="card_info" ; a++){
+                            var cardsplit=command[++a].split('GdwiSEoRfXJsyiw');
+                            //$send_data.="split_split+"\card_info"+split_split".$card_id[$i][$j].$split_string.$split_string.$card[$i][$j];
+                            add_card(listsplit[0],cardsplit[0]);
+                            modify_card_name(cardsplit[0],cardsplit[1]);
                         }
                     }
                 }
@@ -110,14 +128,17 @@
                 } 
                 */
                 else if(command[1] == "card_detail"){
-                    if(modal_cardnum == command[2]){
-                       modify_description(command[2], command[4]);
-                        $('.modal-title').text(command[3]);
-                        for(var a = 5 ; command[a]==undefined ; a+=5)
-                            // card_id string id date commentnum email
-                            add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3],command[a+4]); 
-                    } 
+                    //card, card_description 순으로 send
+                    //user_name, user_email, date, comment_id, messsage 순으로 send
+                    modify_description(command[2], command[4]);
+                    $('.modal-title').text(command[3]);
+                    for(var i = 5 ; command[i]!=undefined ; i++)
+                    {   // card_id string id date commentnum email
+                        var comment_split=command[i].split("GdwiSEoRfXJsyiw");
+                        add_comment(command[2],comment_split[0],comment_split[2],comment_split[3],comment_split[4],comment_split[1]);  
+                    }
                 }
+                break;
             case "modify":
                 if(command[1] == "list_name"){
                     //[2]는 listnum, [3]은 new_name
@@ -139,14 +160,14 @@
                     //[2]는 cardnum, [3]은 string
                     modify_description(command[2],command[3]);
                 }
-            break;
+                break;
             case "delete":
                 if(command[1]=="card")
                     delete_card(command[2]);
                 else if(command[1]=="list")
                     delete_list(command[2]);
                 else if(command[1]=="comment")
-            break;
+                break;
             case "add":
                 if(command[1]=="list"){
                     //[2]는 name, [3]은 listnum
@@ -157,10 +178,10 @@
                     add_card(command[2], command[3]);
                 }
                 else if(command[1]=="comment"){
-                    //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 string [7]은 email
+                    //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 email [7]은 string
                     add_comment(command[2], command[3], command[4], command[5], command[6], command[7]);
                 }
-            break;
+                break;
         }
     };
 
@@ -177,7 +198,7 @@
                 var list_left = ui.item.prev().attr("data-listindex");
                 if (list_left === undefined)
                     list_left = 0;
-                socket.send("modify\\list_place\\"+list_index+"\\"+list_left);
+                socket.send("modify"+split_split+"list_place"+split_split+list_index+split_split+list_left);
             }
         }).disableSelection();
     }
@@ -189,18 +210,19 @@
         $( ".drag-zone" ).sortable({
             items: $(".inner-card"),
             connectWith: '.drag-zone',
+            dropOnEmpty: true,
             update: function(event,ui){
                 var list_index = $(this).parent().parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
                 if (card_up === undefined)
                     card_up = 0;
-                socket.send("modify\\card_place\\"+card_index+"\\"+card_up+"\\"+list_index);
+                socket.send("modify"+split_split+"card_place"+split_split+card_index+split_split+card_up+split_split+list_index);
             }
         }).disableSelection();
     }
 
-    function add_comment(cardnum, id, date, commentnum, string, email){
+    function add_comment(cardnum, id, date, commentnum, email, string){
         var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
         $("#mycomment p").text(id+"("+email+")");
         temp.find(".comment-card").val(string);
@@ -242,6 +264,3 @@
         modal_num = cardnum;
         $('#myModal').find(".description-input").val(string);
     }
-
-  //
-  //  load\\card_detail\\carnum\\id

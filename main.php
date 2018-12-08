@@ -7,6 +7,8 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 		location.href="http://127.0.0.1/login.php";
 		</script>
 		');
+$user_id=$_SESSION["mem_name"];
+$user_email=$_SESSION["mem_email"];
 }
 ?>
 

@@ -1,7 +1,11 @@
 <?php
+
 session_start();
 
-echo "Server is working!\n";
+
+ echo "Server is working!\n";
+
+ define ('split_split',  "dvia3Fivs2QQIV3v");
 
 function handshake($client, $headers, $socket) { //handshake for new user
 
@@ -75,6 +79,11 @@ function encode($text) { //encode the data before sending to clients
 	return $header.$text;
 }
 
+function load_work_space($string)
+{
+    
+}
+
 error_reporting(E_ALL);
 /* Allow the script to hang around waiting for connections. */
 set_time_limit(0);
@@ -145,14 +154,14 @@ while (true)
             $decoded_data=unmask($data);
             echo " send {$decoded_data}\n";
             $send_data=$decoded_data;
-            $command=preg_split("/[\\\\]/",$decoded_data);
+            $command=preg_split("/[split_split]/",$decoded_data);
             switch ($command[0]) {
                 case "add": 
                     switch($command[1])
                     {
-                        case "card": //add\card\list_index
-                            for($i=4; $i<count($command); $i++)			//이름에 \가 있을시 분리된 name 복구
-                                $command[3].="\\\\$command[$i]";
+                        case "card":                    //add\card\list_index
+                            for($i=3; $i<count($command); $i++)			//이름에 \가 있을시 분리된 name 복구
+                                $command[2].=split_split . $command[$i];
                                                         //리스트의 마지막 카드  id 추출(=row[0])
                             $query = "select card_id from card
                                 where (link_right=0) and (list_id=$command[2])";
@@ -162,16 +171,16 @@ while (true)
                             $query = "insert into card (list_id)
                                 values ($command[2])";
                             mysqli_query( $con, $query );
-							//해당 리스트 card_num+1
-			    $query = "update list 
-				set card_num = card_num + 1 
-				where list_id=$command[2]";
-			    mysqli_query( $con, $query );
-                           				//추가한 카드 id 추출(=id[0])
+							                            //해당 리스트 card_num+1
+			                $query = "update list 
+                        	set card_num = card_num + 1 
+		            		where list_id=$command[2]";
+		            	    mysqli_query( $con, $query );
+                           			                	//추가한 카드 id 추출(=id[0])
                             $query = "select max(card_id) from card";
                             $result = mysqli_query( $con, $query );
                             $id = mysqli_fetch_row($result);
-                            if ($row[0] != "") {	//해당 리스트에 카드가 1개이상 있었을때
+                            if ($row[0] != "") {    	//해당 리스트에 카드가 1개이상 있었을때
                                                         
                                                         //추가한 카드를 리스트의 마지막 카드 뒤로 이동
                                 $query = "update card 				
@@ -183,12 +192,12 @@ while (true)
                                     where card_id = $id[0]";
                                 mysqli_query( $con, $query );
                             }
-                            $send_data.="\\".$id[0];
+                            $send_data.=split_split.$id[0];
                             echo "card added to list\n";
                             break;
-                        case "list":    //add\list\name
+                        case "list":                    //add\list\name
                             for($i=3; $i<count($command); $i++)			//이름에 \가 있을시 분리된 name 복구
-                                $command[2].="\\\\$command[$i]";
+                                $command[2].=split_split . $command[$i];
                                                         //마지막 리스트 id 추출(=row[0])
                             $query = "select list_id from list
                                 where link_right=0";
@@ -198,11 +207,11 @@ while (true)
                             $query = "insert into list (list)
                                 values ('$command[2]')";
                             mysqli_query( $con, $query );
-                            //추가한 리스트 id 추출(=id[0])
+                                                        //추가한 리스트 id 추출(=id[0])
                             $query = "select max(list_id) from list";
                             $result = mysqli_query( $con, $query );
                             $id = mysqli_fetch_row($result);
-                            if ($row[0] != "") {	//리스트가 1개이상 있었을경우
+                            if ($row[0] != "") {	    //리스트가 1개이상 있었을경우
                                                         
                                                         //추가한 리스트를 마지막 리스트 뒤로 이동
                                 $query = "update list 				
@@ -214,13 +223,13 @@ while (true)
                                     where list_id = $id[0]";
                                 mysqli_query( $con, $query );
                             }
-                            $send_data.="\\".$id[0];
+                            $send_data.=split_split.$id[0];
                             echo "list added to workspace\n";
                             break;
-                        case "comment":
-                            for($i=5; $i<count($command); $i++)			//내용에 \가 있을시 분리된 string 복구
-                                $command[4].="\\\\$command[$i]";
-                                                            //해당 카드의 list_id 추출(=list_id[0])
+                        case "comment":                 //add\comment\card_id\user_name\date\user_email\string
+                            for($i=7; $i<count($command); $i++)			//내용에 \가 있을시 분리된 string 복구
+                                $command[6].=split_split.$command[$i];
+                                                        //해당 카드의 list_id 추출(=list_id[0])
                                 $query = "select list_id from card
                                     where card_id = $command[2]";
                                 $result = mysqli_query($con, $query);
@@ -229,29 +238,49 @@ while (true)
                                 $timestamp = strtotime("+17 hours");
                                 $today = date("Y-m-d H:i:s", $timestamp);
                                                             //해당 카드에 댓글 추가
-                                $query = "insert into comment (list_id, card_id, user_id, mess, date)
-                                    values ($list_id[0] ,$command[2], $command[3], '$command[4]', '$today')";
+                                $query = "insert into comment (list_id, card_id, user_name, user_email, mess, date)
+                                    values ($list_id[0] ,$command[2], '$command[3]', '$command[4]', '$command[6]', '$today')";
                                 mysqli_query( $con, $query );
+                                                            //추가한 코맨트 id 추출(=id[0])
+                                $query = "select max(comment_id) from comment";
+                                $result = mysqli_query( $con, $query );
+                                $id = mysqli_fetch_row($result);
+                                                            //해당 카드 comment_num+1
+			                    $query = "update card
+                        	    set comment_num = comment_num + 1
+                                where card_id=$command[2]";
+                                mysqli_query( $con, $query );
+                                $send_data.=split_split.$id[0];
+
                         default:
                             "Error: $decoded_data\n";
                             $number_of_error++;
-
                     }							
                     break;
                 case "delete":							
                     switch($command[1]){
                         case "card":
-                            //delete\card_index
-                            //삭제할 카드 양옆 카드 id 추출(=link[])
+                                                            //delete\card\card_index
+                                                            //삭제할 카드 양옆 카드 id 추출(=link[])
                             $query = "select link_left, link_right
                             from card where card_id = $command[1]";
                             $result = mysqli_query($con, $query);
                             $link = mysqli_fetch_row($result);
-                                                        //카드 삭제
+                                                            //삭제할 카드의 list_id 추출(=list_id[0])
+                            $query = "select list_id
+                            from card where card_id = $command[1]";
+                            $result = mysqli_query($con, $query);
+                            $list_id = mysqli_fetch_row($result);
+                                                            //카드 삭제
                             $query = "delete from card
                                 where card_id ='$command[1]'";
                             mysqli_query( $con, $query );
-                                                        //삭제된 카드 양옆 카드 연결
+                                                            //해당 리스트 card_num-1
+			                $query = "update list 
+                        	set card_num = card_num - 1 
+		            		where list_id=$list_id[0]";
+		            	    mysqli_query( $con, $query );
+                                                            //삭제된 카드 양옆 카드 연결
                             $query = "update card
                                 set link_right = $link[1] 
                                 where link_right = $command[1]";
@@ -263,17 +292,17 @@ while (true)
                             echo "card deleted from list\n";
                             break;
                         case "list":
-                            //delete\list_index
-							//삭제할 리스트 양옆 리스트 id 추출(=link[])
+                                                            //delete\list\list_index
+							                                //삭제할 리스트 양옆 리스트 id 추출(=link[])
                             $query = "select link_left, link_right
                             from list where list_id = $command[1]";
                             $result = mysqli_query($con, $query);
                             $link = mysqli_fetch_row($result);
-                                                        //리스트 삭제
+                                                            //리스트 삭제
                             $query = "delete from list
                                 where list_id ='$command[1]'";
                             mysqli_query( $con, $query );
-                                                        //삭제된 리스트 양옆 리스트 연결
+                                                            //삭제된 리스트 양옆 리스트 연결
                             $query = "update list
                                 set link_right = $link[1] 
                                 where link_right = $command[1]";
@@ -285,11 +314,22 @@ while (true)
                             echo "list deleted from workspace\n";
                             break;
                         case "comment":
-                                                        //delete\comment\comment_index
+                                                            //delete\comment\comment_index
+                                                            //삭제할 댓글의 card_id 추출(=card_id[0])
+                            $query = "select card_id
+                            from comment where comment_id = $command[2]";
+                            $result = mysqli_query($con, $query);
+                            $card_id = mysqli_fetch_row($result);                                                                                                                                                                        
                                                             //댓글 삭제
                             $query = "delete from comment
                                 where comment_id ='$command[1]'";
                             mysqli_query( $con, $query );
+                                                            //해당 카드 comment_num-1
+			                $query = "update card 
+                            set comment_num = comment_num - 1 
+		            	    where card_id=$card_id[0]";
+		        	        mysqli_query( $con, $query );
+
                             break;
                         default:
                             echo "Error: $decoded_data\n";
@@ -301,7 +341,7 @@ while (true)
                      {   
                         case "list_name":			//modify\list_name\list_index\new_name
                             for($i=4; $i<count($command); $i++)		//이름에 \가 있을시 분리된 new_name 복구 
-                                $command[3].="\\\\$command[$i]";
+                                $command[3].=split_split . $command[$i];
                                                     //이름 변경
                             $query = "update list
                                 set list = '$command[3]'
@@ -376,7 +416,7 @@ while (true)
                             break;
                     case "card_name": 			//modify\card_name\card_index\new_name
                         for($i=4; $i<count($command); $i++)		//이름에 \가 있을시 분리된 new_name 복구 
-                            $command[3].="\\\\$command[$i]";
+                            $command[3].="dvia3Fivs2QQIV3v$command[$i]";
                                                 //이름 변경
                         $query = "update card
                             set card = '$command[3]'
@@ -385,9 +425,34 @@ while (true)
 
                         echo "card's name modified\n";
                         break;
+                    case "description":				//modify\description\card_index\string
+                        for($i=4; $i<count($command); $i++)	//내용에 \가 있을시 분리된 string 복구 
+                            $command[3].="dvia3Fivs2QQIV3v$command[$i]";
+                                            //description 추가 or 변경
+                        $query = "update card
+                            set card_description = '$command[3]'
+                            where card_id ='$command[2]'";
+                        mysqli_query( $con, $query );
+                        break;
                     case "card_place":							//modify\card_place\card_index\card_up\list_index
                         if($command[2]==$command[3]) break;		//card_index = card_up 일 경우 break;
-                        
+                                                //card_index의 list_id 추출(=list_id[0])
+                        $query = "select list_id
+                            from card where card_id = $command[2]";
+                        $result = mysqli_query($con, $query);
+                        $list_id = mysqli_fetch_row($result);
+
+                        if($list_id[0] != $command[4]) {    //카드를 다른 리스트로 옮길때
+                                                            //각 리스트의 card_num 변경
+			                $query = "update list 
+                        	set card_num = card_num - 1 
+		            		where list_id=$list_id[0]";
+                            mysqli_query( $con, $query );
+                            $query = "update list 
+                        	set card_num = card_num + 1 
+		            		where list_id=$command[4]";
+                            mysqli_query( $con, $query );
+                        }
                         $left_id = $command[3];				//left_id=card_up
                                                 //이동시킬 카드 양옆 카드 id 추출(=link[])
                         $query = "select link_left, link_right
@@ -404,13 +469,12 @@ while (true)
                             where card_id ='$link[1]'";
                         mysqli_query( $con, $query );
                         
-                        
-                        if($left_id == '0') {				//card_up = 0
                                                 //옮길 카드의 list_id 변경
-                            $query = "update card
-                                set list_id = '$command[4]'
-                                where card_id ='$command[2]'";
-                            mysqli_query( $con, $query );
+                        $query = "update card
+                            set list_id = '$command[4]'
+                            where card_id ='$command[2]'";
+                        mysqli_query( $con, $query );
+                        if($left_id == '0') {				//card_up = 0
                                                 //카드를 옮길 리스트의 첫번째 카드 id 추출(=first_id[0])
                             $query = "select card_id from card 
                                 where (link_left = '0') and (list_id = '$command[4]')";
@@ -431,16 +495,6 @@ while (true)
                             mysqli_query( $con, $query );
                         }
                         else {						//card_up > 0
-                                                //card_up의 list_id 추출(=id_list[0])
-                        $query = "select list_id
-                            from card where card_id =$left_id";
-                        $result = mysqli_query($con, $query);
-                        $id_list = mysqli_fetch_row($result);
-                                                //옮길 카드의 list_id 변경
-                        $query = "update card
-                            set list_id = '$id_list[0]'
-                            where card_id ='$command[2]'";
-                        mysqli_query( $con, $query );
                                                 //card_up의 오른쪽 카드 id 추출(=right_id[0])
                         $query = "select link_right
                             from card where card_id = $command[3]";
@@ -467,10 +521,10 @@ while (true)
                         echo "card's position changed\n";
                         break;
                     case "comment":
-                        //modify\comment_string\comment_index\new_ string
+                                                                //modify\comment_string\comment_index\new_ string
                         for($i=4; $i<count($command); $i++)		//내용에 \가 있을시 분리된 new_ string 복구 
-                            $command[3].="\\\\$command[$i]";
-                                                //내용 변경
+                            $command[3].="dvia3Fivs2QQIV3v$command[$i]";
+                                                                //내용 변경
                         $query = "update comment
                             set mess = '$command[3]'
                             where comment_id ='$command[2]'";
@@ -546,20 +600,20 @@ while (true)
                                                                 //$c_link_left 초기화
                                 $c_link_left = 0;
                         }
-                                                            //$l_link_left 초기화
+                                                                //$l_link_left 초기화
                             $l_link_left=0;
                             for($i=0; $i<$list_count; $i++)
-                            {
-                                $send_data.="\\list_info\\".$list_id[$i].$split_string.$list[$i].$split_string.$card_num[$i];
+                            {               //list_id, list, card_num 순으로 send\
+                                $send_data.="dvia3Fivs2QQIV3vlist_infodvia3Fivs2QQIV3v".$list_id[$i].$split_string.$list[$i].$split_string.$card_num[$i];
                                 for($j=0; $j<$card_count[$i]; $j++)
-                                {
-                                    $send_data.="\\card_info\\".$card_id[$i][$j].$split_string
-                                                .$split_string.$card[$i][$j];
+                                {           //card_id, card 순으로 send
+                                    $send_data.="dvia3Fivs2QQIV3vcard_infodvia3Fivs2QQIV3v".$card_id[$i][$j].$split_string
+                                                .$card[$i][$j];
                                 }
                             }
                             break;
                         case "card_detail":
-                            								//보여줄 카드의 id를 받아와 $card_id에 저장
+                            								    //보여줄 카드의 id를 받아와 $card_id에 저장
                             $card_id=$command[2];
                             //해당 카드의 이름($card_detail[0]), description($card_detail[1])]) 추출
                             $query = "select card, card_description from card 
@@ -573,15 +627,20 @@ while (true)
                             where card_id = $card_id";
                             $result = mysqli_query($con, $query);
                             $comment_count = mysqli_num_rows($result);
-                            //댓글 내용($comment_info[0]), 날짜($comment_info[1]), 글쓴이($comment_info[2]) 추출
-                            $query = "select mess, date, user_id 
+                            //댓글 내용($comment_info[0]), 날짜($comment_info[1]), 글쓴이($comment_info[2])
+                            //글쓴이 이메일($comment_info[3]) comment_id($comment_info[4])추출
+                            $query = "select mess, date, user_name, user_email, comment_id
                             from comment order by comment_id asc 
                             where card_id = $card_id";
                             $result = mysqli_query($con, $query);
+                                    //card, card_description 순으로 send
+                            $send_data.="dvia3Fivs2QQIV3v".$card."dvia3Fivs2QQIV3v".$card_description;
                             while($comment_info = mysqli_fetch_row($result)) {
                             //여기에서 프린트 하면 됨 댓글 다 프린트 될때 까지 반복
-                            //$comment_info[0] = messsage, $comment_info[1] = date, $comment_info[2] = user_id, 
-                            $send_data.="\\".$comment_info[2].$split_string.$comment_info[1].$split_string.$comment_info[0];
+                            //$comment_info[0] = messsage, $comment_info[1] = date, $comment_info[2] = user_name, 
+                            //$comment_info[3] = user_email, $comment_info[4] = comment_id
+                                    //user_name, user_email, date, comment_id, messsage 순으로 send
+                            $send_data.="dvia3Fivs2QQIV3v".$comment_info[2].$split_string.$comment_info[3].$split_string.$comment_info[1].$split_string.$comment_info[4].$split_string.$comment_info[0];
                             }
                     }
                 default:
@@ -595,6 +654,10 @@ while (true)
             if($number_of_error==0)
                 foreach ($clients as $send_sock)
                 {
+                    if($command[0]=="load"&&$command[1]=="workspace")
+                    {
+                        load_work_space($send_data);
+                    }
                     if ($send_sock == $sock)
                         continue;
                     $encoded_data=encode($send_data);
