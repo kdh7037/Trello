@@ -79,8 +79,6 @@ set_time_limit(0);
 
 session_start();
 
-$_SESSION["mem_id"]
-
 /* Turn on implicit output flushing so we see what we're getting as it comes in. */
 ob_implicit_flush();
 // create a streaming socket, of type TCP/IP
@@ -552,21 +550,17 @@ while (true)
                             $l_link_left=0;
                             for($i=0; $i<$list_count; $i++)
                             {
-                                $send_data.="\\list_info\\".$list_id[$i].$split_string.$list_link_left[$i].$split_string
-                                            .$list_link_right[$i].$split_string.$list[$i].$split_string.$card_num[$i];
+                                $send_data.="\\list_info\\".$list_id[$i].$split_string.$list[$i].$split_string.$card_num[$i];
                                 for($j=0; $j<$card_count[$i]; $j++)
                                 {
-                                    $send_data.="\\card_info\\".$card_id[$i][$j].$split_string.$card_link_left[$i][$j].$split_string
-                                                .$card_link_right[$i][$j].$split_string.$card[$i][$j].$split_string
-                                                .$card_description[$i][$j].$split_string.$comment_num[$i][$j];
+                                    $send_data.="\\card_info\\".$card_id[$i][$j].$split_string
+                                                .$split_string.$card[$i][$j];
                                 }
-                                /*load\workspace\list_info\list_id\list_link_left\list_link_right\list_name\card_num
-                                card_info\card_id\card_link_left\card_link_right\card_name\card_description\comment_num...   */
                             }
                             break;
                         case "card_detail":
                             								//보여줄 카드의 id를 받아와 $card_id에 저장
-                            $card_id = $_POST[card_detail];
+                            $card_id=$command[2];
                             //해당 카드의 이름($card_detail[0]), description($card_detail[1])]) 추출
                             $query = "select card, card_description from card 
                             where card_id =$card_id";
