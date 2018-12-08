@@ -35,7 +35,6 @@
         })
         .on("click", '#save-comment', function () {
             var string= $('.description-input').val();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+string+"\\"+date);
             var Now = new Date();
             var date = Now.getFullYear();
             date += '-' + Now.getMonth() + 1 ;
@@ -43,7 +42,7 @@
             date += ' ' + Now.getHours();
             date += ':' + Now.getMinutes();
             date += ':' + Now.getSeconds();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string+user_email);
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string+"\\"+user_email);
         })
     });
 
@@ -111,11 +110,13 @@
                 } 
                 */
                 else if(command[1] == "card_detail"){
-                    modify_description(command[2], command[4]);
-                    $('.modal-title').text(command[3]);
-                    for(var a = 5 ; command[a]==undefined ; a+=5)
-                        // card_id string id date commentnum email
-                        add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3],command[a+4]);  
+                    if(modal_cardnum == command[2]){
+                       modify_description(command[2], command[4]);
+                        $('.modal-title').text(command[3]);
+                        for(var a = 5 ; command[a]==undefined ; a+=5)
+                            // card_id string id date commentnum email
+                            add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3],command[a+4]); 
+                    } 
                 }
             case "modify":
                 if(command[1] == "list_name"){
@@ -240,9 +241,6 @@
     function load_description(cardnum, string){
         modal_num = cardnum;
         $('#myModal').find(".description-input").val(string);
-    }
-    function load_card_detail(cardnum, string, id){
-        
     }
 
   //
