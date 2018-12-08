@@ -10,11 +10,11 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 								//mem_email, mem_password 중 하나라도 없을 시 오류 출력, 뒤로가기
 	if(!$mem_email  || !$mem_password) {
 		echo("
-					<script>
-					window.alert('입력값이 부족합니다.');
-					history.go(-1);
-					</script>
-				  ");
+			<script>
+			window.alert('입력값이 부족합니다.');
+			history.go(-1);
+			</script>
+			");
 		exit;
 	}
 	session_start();						//세션 시작
@@ -22,7 +22,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 	mysqli_select_db( $con, "workspace");
 																		//입력한 이메일과 비밀번호에 맞는 회원정보 추출(=mem_info[])
 	$query = "select mem_id, mem_name,  mem_email, mem_password from member 
-					where (mem_email = '$_POST[mem_email]') and (mem_password = '$_POST[mem_password]')";
+		where (mem_email = '$_POST[mem_email]') and (mem_password = '$_POST[mem_password]')";
 	$result = mysqli_query($con, $query);
 	$mem_info = mysqli_fetch_row($result);
 	mysqli_close( $con );
@@ -30,14 +30,14 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 	if ($mem_info[0] == "") {			//입력한 이메일과 비밀번호에 맞는 회원정보가 없을때
 							//알림문 출력 후 뒤로가기
 		echo("
-					<script>
-					window.alert('이메일과 비밀번호를 확인해 주세요');
-					history.go(-1);
-					</script>
-				  ");
+			<script>
+			window.alert('이메일과 비밀번호를 확인해 주세요');
+			history.go(-1);
+			</script>
+			");
 		exit;
 	}
-																			//로그인 성공시
+							//로그인 성공시
 							//$_SESSION['mem_name'] = mem_name,
 							//$_SESSION['mem_email'] = mem_email
 	$_SESSION["mem_name"] = $mem_info[1];
