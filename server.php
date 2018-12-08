@@ -164,11 +164,16 @@ while (true)
                             $query = "insert into card (list_id)
                                 values ($command[2])";
                             mysqli_query( $con, $query );
-                            //추가한 카드 id 추출(=id[0])
+							//해당 리스트 card_num+1
+			    $query = "update list 
+				set card_num = card_num + 1 
+				where list_id=$command[2]";
+			    mysqli_query( $con, $query );
+                           				//추가한 카드 id 추출(=id[0])
                             $query = "select max(card_id) from card";
                             $result = mysqli_query( $con, $query );
                             $id = mysqli_fetch_row($result);
-                            if ($row[0] != "") {					//해당 리스트에 카드가 1개이상 있었을때
+                            if ($row[0] != "") {	//해당 리스트에 카드가 1개이상 있었을때
                                                         
                                                         //추가한 카드를 리스트의 마지막 카드 뒤로 이동
                                 $query = "update card 				
@@ -199,7 +204,7 @@ while (true)
                             $query = "select max(list_id) from list";
                             $result = mysqli_query( $con, $query );
                             $id = mysqli_fetch_row($result);
-                            if ($row[0] != "") {					//리스트가 1개이상 있었을경우
+                            if ($row[0] != "") {	//리스트가 1개이상 있었을경우
                                                         
                                                         //추가한 리스트를 마지막 리스트 뒤로 이동
                                 $query = "update list 				
