@@ -1,5 +1,7 @@
 <?php
- echo "Server is working!\n";
+session_start();
+
+echo "Server is working!\n";
 
 function handshake($client, $headers, $socket) { //handshake for new user
 
@@ -76,8 +78,6 @@ function encode($text) { //encode the data before sending to clients
 error_reporting(E_ALL);
 /* Allow the script to hang around waiting for connections. */
 set_time_limit(0);
-
-session_start();
 
 /* Turn on implicit output flushing so we see what we're getting as it comes in. */
 ob_implicit_flush();
@@ -227,7 +227,7 @@ while (true)
                                 $list_id = mysqli_fetch_row($result);
                                                             //현재 시간 추출(=$today)
                                 $timestamp = strtotime("+17 hours");
-                                $today = date("Y/m/d/H/i/s", $timestamp);
+                                $today = date("Y-m-d H:i:s", $timestamp);
                                                             //해당 카드에 댓글 추가
                                 $query = "insert into comment (list_id, card_id, user_id, mess, date)
                                     values ($list_id[0] ,$command[2], $command[3], '$command[4]', '$today')";
