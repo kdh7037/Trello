@@ -18,7 +18,7 @@
             <h2 class="form-signin-heading">Create a Trello Account</h2>
             <label>Name</label>
             <label for="inputName" class="sr-only">Name</label>
-            <input type="id" name="mem_id" id="inputName" class="form-control" value="">
+            <input type="id" name="mem_name" id="inputName" class="form-control" value="">
             <label>Email</label>
             <label for="inputEmail" class="sr-only">Email</label>
             <input type="email" name="mem_email" id="inputEmail" class="form-control" value="">
