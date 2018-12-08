@@ -43,7 +43,7 @@
             date += ' ' + Now.getHours();
             date += ':' + Now.getMinutes();
             date += ':' + Now.getSeconds();
-            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string);
+            socket.send("add\\comment\\"+modal_cardnum+"\\"+user_id+"\\"+date+"\\"+string+user_email);
         })
     });
 
@@ -93,6 +93,7 @@
         switch(command[0]){
             case "load":
                 if(command[1] == "workspace"){
+                    $('#main-id').child().text(user_id);
                     var a=2;
                     while(command[a].indexOF("list_info") !== -1){
                         var listsplit = string.split(';;');
@@ -110,10 +111,11 @@
                 } 
                 */
                 else if(command[1] == "card_detail"){
-                    
-                    for(var a = 5 ; command[a]==undefined ; a+=4)
-                        // card_id string id date commentnum
-                        add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3]);  
+                    modify_description(command[2], command[4]);
+                    $('.modal-title').text(command[3]);
+                    for(var a = 5 ; command[a]==undefined ; a+=5)
+                        // card_id string id date commentnum email
+                        add_comment(command[2], command[a],command[a+1],command[a+2],command[a+3],command[a+4]);  
                 }
             case "modify":
                 if(command[1] == "list_name"){
@@ -154,8 +156,8 @@
                     add_card(command[2], command[3]);
                 }
                 else if(command[1]=="comment"){
-                    //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 string
-                    add_comment(command[2], command[3], command[4], command[5], command[6]);
+                    //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 string [7]은 email
+                    add_comment(command[2], command[3], command[4], command[5], command[6], command[7]);
                 }
             break;
         }
@@ -197,9 +199,9 @@
         }).disableSelection();
     }
 
-    function add_comment(cardnum, id, date, commentnum, string){
+    function add_comment(cardnum, id, date, commentnum, string, email){
         var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
-        $("#mycomment p").text(id);
+        $("#mycomment p").text(id+"("+email+")");
         temp.find(".comment-card").val(string);
         temp.appendTo("#comment");
         temp.find(".listtitle").val(name);

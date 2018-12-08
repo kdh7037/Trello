@@ -81,8 +81,8 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 		<div class="col mx-auto text-center">
 			<h4>Trello</h4>
 		</div>
-		<div class="col mx-auto text-center">
-			<h4>ID</h4>
+		<div id="main-id"class="col mx-auto text-center">
+			<h4></h4>
 		</div>
 		<div class=" mx-auto text-center">
 			<form class="form-logout" method="post" action="logout.php">
