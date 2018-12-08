@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div id="comment" class="modal-footer">
-					<div id="mycomment" class="d-none">
+					<div id="mycomment" class="d-none" data-commentindex="0">
 						<p>ID 들어갈 공간</p>
 						<input class="comment-card form-control">
 					</div>
@@ -84,7 +84,7 @@
 
 	<!-- Don't delete it -->
 	<!-- list의 본체 -->
-	<div id="mylist" class="mylist card listcard m-1 mb-auto p-2 bg-light d-none" data-listindex="0">
+	<div id="mylist" class="mylist card listcard m-1 mb-auto p-2 bg-light d-none">
 		<div class="drag-body card-body p-0 w-100">
 			<div class="d-flex p-1">
 				<input type="text" class="d-inline listtitle form-control inv w-100 mt-0">
@@ -105,7 +105,7 @@
 	</div>
 
 	<!-- card의 본체 -->
-	<form id="mycard" class="inner-card card mx-0 my-2 d-none w-100" data-cardindex="0">
+	<form id="mycard" class="inner-card card mx-0 my-2 d-none w-100">
 		<div class="d-flex p-1">
 			<span class="d-inline card-text w-100"></span>
 			<button type="button" class="btn-adjust-name close my-auto">正</button>

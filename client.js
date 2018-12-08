@@ -1,11 +1,13 @@
-    var socket = new WebSocket("ws://121.130.151.64:7867");
+    var socket = new WebSocket("ws://localhost:7867");
 
     var modal_listnum = 0;
     var modal_cardnum = 0;
+    var id;
 
     jQuery(function () {
         $(document).on("click", "#btn-new-list", function () {
             var name = $('#listname').val();
+            $('#listname').val("");
             socket.send("add\\list\\"+name);
         })
         .on("click", ".btn-add-card", function () {
@@ -49,6 +51,7 @@
             $('#myModal').modal('show');
             var temp = $(this).text();
             $('#myModal').find('h4').text(temp);
+            socket.send("load\\card_detail\\"+modal_cardnum+id);
             socket.send("load\\description\\"+modal_cardnum);
         })
         //수정요함
@@ -81,12 +84,19 @@
         switch(command[0]){
             case "load":
                 if(command[1] == "workspace"){
-                    load_workspace();
+                    var a=2;
+                    while(command[a].indexOF("list_info") !== -1){
+                        var listsplit = string.split(';;');
+                        listsplit[0];
+                    }
                 }
                 else if(command[1] == "description"){
                     //[2]는 cardnum, [3]은 description string
                     load_description(command[2],command[3]);
                 } 
+                else if(command[1] == "card_detail"){
+                    load_card_detail(command[2],command[3]);
+                }
             case "modify":
                 if(command[1] == "list_name"){
                     //[2]는 listnum, [3]은 new_name
@@ -114,6 +124,7 @@
                     delete_card(command[2]);
                 else if(command[1]=="list")
                     delete_list(command[2]);
+                else if(command[1]=="comment")
             break;
             case "add":
                 if(command[1]=="list"){
@@ -143,6 +154,8 @@
             update: function(event,ui){
                 var list_index = ui.item.attr("data-listindex");
                 var list_left = ui.item.prev().attr("data-listindex");
+                if (list_left === undefined)
+                    list_left = 0;
                 socket.send("modify\\list_place\\"+list_index+"\\"+list_left);
             }
         }).disableSelection();
@@ -159,6 +172,8 @@
                 var list_index = $(this).parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
+                if (card_up === undefined)
+                    card_up = 0;
                 socket.send("modify\\card_place\\"+card_index+"\\"+card_up+"\\"+list_index);
             }
         }).disableSelection();
@@ -208,3 +223,9 @@
         modal_num = cardnum;
         $('#myModal').find(".description-input").val(string);
     }
+    function load_card_detail(cardnum, string, id){
+
+    }
+
+  //
+  //  load\\card_detail\\carnum\\id
