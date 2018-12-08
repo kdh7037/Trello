@@ -37,12 +37,11 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 				  ");
 		exit;
 	}
-							//로그인 성공시
-							//$_SESSION['mem_info'] 에 $mem_info 저장
-							//$_SESSION['mem_info'][0] = mem_id, [1] = mem_name,
-							//			[2] = mem_email, [3] = mem_password																
-	$_SESSION['mem_info'] = array();
-	array_push ($_SESSION['mem_info'], $mem_info[0], $mem_info[1], $mem_info[2], $mem_info[3]);
+																			//로그인 성공시
+							//$_SESSION['mem_name'] = mem_name,
+							//$_SESSION['mem_email'] = mem_email
+	$_SESSION["mem_name"] = $mem_info[1];
+	$_SESSION["mem_email"] = $mem_info[2];
 
 	$remember = $_POST[remember];
 	
