@@ -82,7 +82,7 @@ $(document).ready(function () {
 
 socket.onopen = function (event) {
     socket.send("load"+split_split+"workspace");
-    $('#main-id').child().text(user_id);
+    $('#main-id').find('h4').text(user_id);
     alert("연결 성공!");
 };
 

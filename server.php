@@ -666,6 +666,7 @@ while (true)
                             $result = mysqli_query($con, $query);
                                     //card_id, card, card_description 순으로 send
                             $send_data.="dvia3Fivs2QQIV3v".$card_id."dvia3Fivs2QQIV3v".$card."dvia3Fivs2QQIV3v".$card_description;
+                            if(!$result) 
                             while($comment_info = mysqli_fetch_row($result)) {
                             //여기에서 프린트 하면 됨 댓글 다 프린트 될때 까지 반복
                             //$comment_info[0] = messsage, $comment_info[1] = date, $comment_info[2] = user_name, 
