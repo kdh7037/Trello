@@ -86,6 +86,13 @@ socket.onopen = function (event) {
     alert("연결 성공!");
 };
 
+var comment_card_id;
+var comment_user_name;
+var comment_user_email;
+var comment_date;
+var comment_id;
+var server_comment = "";
+
 socket.onmessage = function (event) {
     alert(event.data);
     // 스왑, 제거, 추가
@@ -160,12 +167,25 @@ socket.onmessage = function (event) {
                 add_card(command[2], command[3]);
             }
             else if(command[1]=="comment"){
-                //[2]는 cardnum [3]은 id [4]는 date [5]는 commentnum [6]은 email [7]은 string
-                add_comment(command[2], command[3], command[4], command[5], command[6], command[7]);
+                comment_card_id = command[2];
             }
             break;
+        case "comment_data":
+            comment_user_name=command[1];
+            comment_user_email=command[2];
+            comment_user_date=command[3];
+            comment_id=command[4];
+        break;
+        case "comment_string":
+            server_comment += comment[1];
+        break;
+        case "comment_end":
+            add_comment(comment_card_id, comment_user_name, comment_user_email, comment_user_date, comment_id, server_comment);
+            server_comment = "";
+        break;
     }
 };
+
 
 function add_list(name, listnum){
     $("#newlist").addClass('d-none');
@@ -204,7 +224,7 @@ function add_card(listnum,cardnum){
     }).disableSelection();
 }
 
-function add_comment(cardnum, id, date, commentnum, email, string){
+function add_comment(cardnum, id, email, date, commentnum, string){
     if(cardnum == modal_cardnum){
         var temp = $("#mycomment").clone().removeClass('d-none').attr("data-commentindex",commentnum);
         $("[data-commentindex="+commentnum+"]").find("p").text(id+"("+email+")");

@@ -110,9 +110,17 @@ function load_card_detail($socket, $data) //send loaded card_detail data to clie
             $info=explode("GdwiSEoRfXJsyiw",$data_array[$i]);
             if(count($info)<=1){$i--; continue;}
             //user_name, user_email, date, comment_id, messsage 순으로 send
-            $send_data="add".split_split."comment".split_split.$card_id.split_split.$info[0].split_split.
-                        $info[2].split_split.$info[3].split_split.$info[1].split_split.$info[4];
-            socket_write($socket, $send_data);
+            $send_data="add".split_split."comment".split_split.$card_id;
+            socket_write($socket, encode($send_data));
+            $send_data="comment_data".split_split.$info[0].split_split.$info[1].split_split.$info[2].split_split.$info[3];
+            socket_write($socket, encode($send_data));
+            $info[4];
+            for($j=0; $j<strlen($info[4]); $j+=10)
+            {
+                $send_data="comment_string".split_split.substr($info[4],$j,10);
+                socket_write($socket, encode($send_data));
+            }
+            socket_write($socket, encode("comment_end"));    
         }
     }
 }
