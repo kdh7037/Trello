@@ -1,21 +1,15 @@
 <?php
-
 session_start();
-
-
  echo "Server is working!\n";
-
  define ('split_split',  "dvia3Fivs2QQIV3v");
-
+ 
 function handshake($client, $headers, $socket) { //handshake for new user
-
 	if(preg_match("/Sec-WebSocket-Version: (.*)\r\n/", $headers, $match))
 		$version = $match[1];
 	else {
 		print("The client doesn't support WebSocket");
 		return false;
 	}
-
 	if($version == 13) {
 		// Extract header variables
         if(preg_match("/GET (.*) HTTP/", $headers, $match))
@@ -29,13 +23,11 @@ function handshake($client, $headers, $socket) { //handshake for new user
         
 		$acceptKey = $key.'258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
 		$acceptKey = base64_encode(sha1($acceptKey, true));
-
 		$upgrade = "HTTP/1.1 101 Switching Protocols\r\n".
 				   "Upgrade: websocket\r\n".
 				   "Connection: Upgrade\r\n".
 				   "Sec-WebSocket-Accept: $acceptKey".
 				   "\r\n\r\n";
-
 		socket_write($client, $upgrade);
 		return true;
 	}
@@ -44,10 +36,8 @@ function handshake($client, $headers, $socket) { //handshake for new user
 		return false;
     }
 }
-
 function unmask($payload) { //unmask the data sent from clients
 	$length = ord($payload[1]) & 127;
-
 	if($length == 126) {
 		$masks = substr($payload, 4, 4);
 		$data = substr($payload, 8);
@@ -60,34 +50,54 @@ function unmask($payload) { //unmask the data sent from clients
 		$masks = substr($payload, 2, 4);
 		$data = substr($payload, 6);
 	}
-
 	$text = '';
     for ($i = 0; $i < strlen($data); ++$i) {
 		$text .= $data[$i] ^ $masks[$i%4];
 	}
 	return $text;
 }
-
 function encode($text) { //encode the data before sending to clients
 	// 0x1 text frame (FIN + opcode)
 	$b1 = 0x80 | (0x1 & 0x0f);
 	$length = strlen($text);
-
 	if($length <= 125) 		$header = pack('CC', $b1, $length); 	elseif($length > 125 && $length < 65536) 		$header = pack('CCS', $b1, 126, $length); 	elseif($length >= 65536)
 		$header = pack('CCN', $b1, 127, $length);
-
 	return $header.$text;
 }
 
-function load_work_space($string)
+function load_work_space($socket, $data) //send loading workspace data to client who newly connected
 {
-    
-}
+    //this function is written because the Websocket gives too much stress for browser, so it splits data string and send to client command by command
+    $data_array=explode(split_split,$data);
+    $now_list;
+    for($i=2; $i<count($data_array); $i++)
+    {
+        if($data_array[$i]=="list_info")
+        {
+            $i++;
+            $info=explode("GdwiSEoRfXJsyiw", $data_array[$i]); //list_id, list, card_num 순
+            if($data_array[$i]==$info[0]){$i--;   continue;} //continue if data_array[$i] is not about list information
+            $now_list=$info[0]; //save the list id for card_info
+            
+            $send_data="add".split_split."list".split_split.$info[1].split_split.$info[0];
+            socket_write($socket, encode($send_data));
+        }
+        if($data_array[$i]=="card_info")
+        {
+            $i++;
+            $info=explode("GdwiSEoRfXJsyiw",$data_array[$i]); //card_id, card 순
+            if($data_array[$i]==$info[0]){$i--;   continue;} //continue if data_array[$i] is not about card information
 
+            $send_data="add".split_split."card".split_split.$now_list.split_split.$info[0];
+            socket_write($socket, encode($send_data));
+            $send_data="modify".split_split."card_name".split_split.$info[0].split_split.$info[1];
+            socket_write($socket, encode($send_data));
+        }
+    }
+}
 error_reporting(E_ALL);
 /* Allow the script to hang around waiting for connections. */
 set_time_limit(0);
-
 /* Turn on implicit output flushing so we see what we're getting as it comes in. */
 ob_implicit_flush();
 // create a streaming socket, of type TCP/IP
@@ -95,7 +105,6 @@ $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 //socket_set_option($sock, SOL_SOCKET, SO_REUSEADDR, 1);
 socket_bind($sock, "0.0.0.0", 7867);
 socket_listen($sock);
-
 //connect to db
 $con = mysqli_connect( "localhost", "root", "1841aa" );
 mysqli_select_db( $con, "workspace");
@@ -110,7 +119,6 @@ while (true)
     $except = null;
     // get a list of all the clients that have data to be read from
     // if there are no clients with data, go to next iteration
-
     if (socket_select($read, $write, $except, 0) < 1)
         continue;
     // check if there is a client trying to connect
@@ -119,13 +127,10 @@ while (true)
         $clients[] = $newsock = socket_accept($sock);
         if(@socket_recv($newsock,$data,2048,0)<=0)
             continue;
-
         if(!handshake($newsock,$data,$sock)) continue;
-
         //socket_write($newsock, "There are ".(count($clients) - 1)." client(s) connected to the server\n");
         socket_getpeername($newsock, $ip, $port);
         echo "New client connected: {$ip}\n";
-
         $key = array_search($sock, $read);
         unset($read[$key]);
     }
@@ -137,7 +142,6 @@ while (true)
         // read until newline or 1024 bytes
         // socket_read while show errors when the client is disconnected, so silence the error messages
         $data = @socket_read($read_sock, 4096, PHP_BINARY_READ);
-
         // check if the client is disconnected
         if ($data === false)
         {
@@ -147,14 +151,13 @@ while (true)
             echo "client disconnected.\n";
             continue;
         }
-
         $data = trim($data);
         if (!empty($data))
         {
             $decoded_data=unmask($data);
             echo " send {$decoded_data}\n";
             $send_data=$decoded_data;
-            $command=preg_split("/[split_split]/",$decoded_data);
+            $command=explode("dvia3Fivs2QQIV3v",$decoded_data);
             switch ($command[0]) {
                 case "add": 
                     switch($command[1])
@@ -251,7 +254,6 @@ while (true)
                                 where card_id=$command[2]";
                                 mysqli_query( $con, $query );
                                 $send_data.=split_split.$id[0];
-
                         default:
                             "Error: $decoded_data\n";
                             $number_of_error++;
@@ -329,7 +331,6 @@ while (true)
                             set comment_num = comment_num - 1 
 		            	    where card_id=$card_id[0]";
 		        	        mysqli_query( $con, $query );
-
                             break;
                         default:
                             echo "Error: $decoded_data\n";
@@ -422,7 +423,6 @@ while (true)
                             set card = '$command[3]'
                             where card_id ='$command[2]'";
                         mysqli_query( $con, $query );
-
                         echo "card's name modified\n";
                         break;
                     case "description":				//modify\description\card_index\string
@@ -441,7 +441,6 @@ while (true)
                             from card where card_id = $command[2]";
                         $result = mysqli_query($con, $query);
                         $list_id = mysqli_fetch_row($result);
-
                         if($list_id[0] != $command[4]) {    //카드를 다른 리스트로 옮길때
                                                             //각 리스트의 card_num 변경
 			                $query = "update list 
@@ -540,7 +539,6 @@ while (true)
                     {
                         case "workspace":
                             $split_string="GdwiSEoRfXJsyiw";
-
                             $list_id = array();
                             $list_link_left = array();
                             $list_link_right = array();
@@ -613,6 +611,7 @@ while (true)
                             }
                             break;
                         case "card_detail":
+                            $split_string="GdwiSEoRfXJsyiw";
                             								    //보여줄 카드의 id를 받아와 $card_id에 저장
                             $card_id=$command[2];
                             //해당 카드의 이름($card_detail[0]), description($card_detail[1])]) 추출
@@ -652,22 +651,27 @@ while (true)
             //socket_write($read_sock, $send_data);
             // send this to all the clients in the $clients array (except the first one, which is a listening socket)
             if($number_of_error==0)
+            {
+                if($command[0]=="load")
+                {
+                    if($command[1]=="workspace")
+                    {
+                        load_work_space($read_sock,$send_data);
+                        continue;
+                    }
+                }
                 foreach ($clients as $send_sock)
                 {
-                    if($command[0]=="load"&&$command[1]=="workspace")
-                    {
-                        load_work_space($send_data);
-                    }
+                    
                     if ($send_sock == $sock)
                         continue;
                     $encoded_data=encode($send_data);
                     socket_write($send_sock, $encoded_data);
                 } // end of broadcast foreach
+            }
         }
     } // end of reading foreach
-
 }
 // close the listening socket
 socket_close($sock);
-
 ?>
