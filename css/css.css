@@ -3,6 +3,12 @@
     width: 272px !important;
 }
 
+.small-button
+{
+    width: 10px !important;
+    height: 10px !important;
+}
+
 .inv:hover
 {
     cursor: pointer !important;

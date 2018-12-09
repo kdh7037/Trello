@@ -4,13 +4,14 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 	echo('
 		<script>
 		alert("로그인이 필요합니다.");
-		location.href="http://localhost/login.php";
+		location.href="http://121.130.151.64:7866/login.php";
 		</script>
 		');
-}	
-$user_id=$_SESSION["mem_name"];
-$user_email=$_SESSION["mem_email"];
-echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
+}
+
+// $user_id=$_SESSION["mem_name"];
+// $user_email=$_SESSION["mem_email"];
+// echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
 
 ?>
 
@@ -26,15 +27,15 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
   <link rel="icon" href="images/favicon.ico" type="image/favicon.ico"/>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<script src="client.js"></script>
+	<script src="client.js"  charset="UTF-8"></script>
  	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
  </head>
  
 
  <body class="bg-primary" style="overflow:auto">
 	 <form>
-		<input type="hidden" name="user_id" id="user_id" value="<?php $user_id?>">
-		<input type="hidden" name="user_email" id="user_email" value="<?php $user_email?>">
+		<input type="hidden" name="user_id" id="user_id" value="<?php session_start(); echo $_SESSION["mem_name"];?>">
+		<input type="hidden" name="user_email" id="user_email" value="<?php session_start(); echo $_SESSION["mem_email"];?>">
 	</form>
 	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
@@ -45,7 +46,7 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
 				</div>
 				<div class="modal-body">
 					<h6>Descript</h6>
-					<input class=" description-input form-control">
+					<input class="description-input form-control">
 					<button type="button" id='save-description' class="btn btn-primary">Save</button>
 					<h6>Add comment</h6>
 					<div class="add-comment">
@@ -53,16 +54,16 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
 						<button type="button" id='save-comment' class="btn btn-primary">Save</button>
 					</div>
 				</div>
-				<div id="comment" class="modal-footer">
-					<div id="mycomment" class="d-none" data-commentindex="0" style="width:500">
+				<div id="comment" class="modal-footer" style="display:inline">
+					<div id="mycomment" class="d-none mb-1" data-commentindex="0" style="width:460px">
 						<div class="d-flex">
-							<p>ID 들어갈 공간</p>
-							<button type="button" class="btn-delete-comment">×</button>
+							<p class="mb-0"></p>
+							<button type="button" class="btn-delete-comment btn btn-light">×</button>
 						</div>
 						<div class="card comment-card form-control">
 							<span></span>
 						</div>
-						<small class="date text-muted">Last updated 3 mins ago</small>
+						<small class="date text-muted"></small>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -94,7 +95,7 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
 		<div class="col mx-auto text-center">
 			<h4>Trello</h4>
 		</div>
-		<div id="main-id"class="col mx-auto text-center">
+		<div id="main-id" class="col mx-auto text-center">
 			<h4></h4>
 		</div>
 		<div class=" mx-auto text-center">
@@ -119,7 +120,6 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
 				<button type="button" class="btn-delete-list close my-auto">X</button>
 			</div>
 			<div class="drag-zone" style="min-height:40px">
-				<div class="trash d-none"></div>
 			</div>
 		</div>
 		<button class="btn-add-card btn btn-secondary w-100">+ Add another card</button>

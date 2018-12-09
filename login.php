@@ -54,7 +54,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 		setcookie("email"); 
 	
 							//main.php로 이동
-header("Location:http://localhost/main.php");
+header("Location:http://121.130.151.64:7866/main.php");
 }
 							//로그인 화면 출력
 echo("
