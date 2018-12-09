@@ -4,12 +4,14 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 	echo('
 		<script>
 		alert("로그인이 필요합니다.");
-		location.href="http://127.0.0.1/login.php";
+		location.href="http://localhost/login.php";
 		</script>
 		');
+}	
 $user_id=$_SESSION["mem_name"];
 $user_email=$_SESSION["mem_email"];
-}
+echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
+
 ?>
 
 <html lang="ko">
@@ -30,6 +32,10 @@ $user_email=$_SESSION["mem_email"];
  
 
  <body class="bg-primary" style="overflow:auto">
+	 <form>
+		<input type="hidden" name="user_id" id="user_id" value="<?php $user_id?>">
+		<input type="hidden" name="user_email" id="user_email" value="<?php $user_email?>">
+	</form>
 	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -48,9 +54,14 @@ $user_email=$_SESSION["mem_email"];
 					</div>
 				</div>
 				<div id="comment" class="modal-footer">
-					<div id="mycomment" data-commentindex="0" style="width:500">
-						<p>ID 들어갈 공간</p>
-						<input class="comment-card form-control">
+					<div id="mycomment" class="d-none" data-commentindex="0" style="width:500">
+						<div class="d-flex">
+							<p>ID 들어갈 공간</p>
+							<button type="button" class="btn-delete-comment">×</button>
+						</div>
+						<div class="card comment-card form-control">
+							<span></span>
+						</div>
 						<small class="date text-muted">Last updated 3 mins ago</small>
 					</div>
 				</div>

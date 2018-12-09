@@ -65,7 +65,7 @@ function encode($text) { //encode the data before sending to clients
 	return $header.$text;
 }
 
-function load_work_space($socket, $data) //send loading workspace data to client who newly connected
+function load_work_space($socket, $data) //send loaded workspace data to client who newly connected
 {
     //this function is written because the Websocket gives too much stress for browser, so it splits data string and send to client command by command
     $data_array=explode(split_split,$data);
@@ -76,7 +76,7 @@ function load_work_space($socket, $data) //send loading workspace data to client
         {
             $i++;
             $info=explode("GdwiSEoRfXJsyiw", $data_array[$i]); //list_id, list, card_num 순
-            if($data_array[$i]==$info[0]){$i--;   continue;} //continue if data_array[$i] is not about list information
+            if(count($info)<=1){$i--;   continue;} //continue if data_array[$i] is not about list information
             $now_list=$info[0]; //save the list id for card_info
             
             $send_data="add".split_split."list".split_split.$info[1].split_split.$info[0];
@@ -86,7 +86,7 @@ function load_work_space($socket, $data) //send loading workspace data to client
         {
             $i++;
             $info=explode("GdwiSEoRfXJsyiw",$data_array[$i]); //card_id, card 순
-            if($data_array[$i]==$info[0]){$i--;   continue;} //continue if data_array[$i] is not about card information
+            if($data_array[$i]<=$info[0]){$i--;   continue;} //continue if data_array[$i] is not about card information
 
             $send_data="add".split_split."card".split_split.$now_list.split_split.$info[0];
             socket_write($socket, encode($send_data));
@@ -95,6 +95,28 @@ function load_work_space($socket, $data) //send loading workspace data to client
         }
     }
 }
+
+function load_card_detail($socket, $data) //send loaded card_detail data to client who just opened card modal
+{
+    $data_array=explode(split_split,$data);
+    $card_id=$data_array[2];
+    $send_data="modify".split_split."description".split_split.$card_id.split_split.$data_array[4];
+    socket_write($socket, encode($send_data));
+    for($i=2; $i<count($data_array); $i++)
+    {
+        if($data_array[$i]=="comment_info")
+        {
+            $i++;
+            $info=explode("GdwiSEoRfXJsyiw",$data_array[$i]);
+            if(count($info)<=1){$i--; continue;}
+            //user_name, user_email, date, comment_id, messsage 순으로 send
+            $send_data="add".split_split."comment".split_split.$card_id.split_split.$info[0].split_split.
+                        $info[2].split_split.$info[3].split_split.$info[1].split_split.$info[4];
+            socket_write($socket, $send_data);
+        }
+    }
+}
+
 error_reporting(E_ALL);
 /* Allow the script to hang around waiting for connections. */
 set_time_limit(0);
@@ -254,11 +276,12 @@ while (true)
                                 where card_id=$command[2]";
                                 mysqli_query( $con, $query );
                                 $send_data.=split_split.$id[0];
+                                break;
                         default:
                             "Error: $decoded_data\n";
                             $number_of_error++;
                     }							
-                    break;
+                break;
                 case "delete":							
                     switch($command[1]){
                         case "card":
@@ -586,6 +609,7 @@ while (true)
                                         where (link_left = $c_link_left) and (list_id =$list_id[$i])";
                                     $result = mysqli_query($con, $query);
                                     $card_info = mysqli_fetch_row($result);
+                                    
                                 /*
                                     []안의 숫자에 따라 리스트 정보들이 저장됨
                                     $card_list_id[$i][$j] = i번째 리스트의 j번째 카드의 list_id, 
@@ -632,16 +656,17 @@ while (true)
                             from comment order by comment_id asc 
                             where card_id = $card_id";
                             $result = mysqli_query($con, $query);
-                                    //card, card_description 순으로 send
-                            $send_data.="dvia3Fivs2QQIV3v".$card."dvia3Fivs2QQIV3v".$card_description;
+                                    //card_id, card, card_description 순으로 send
+                            $send_data.="dvia3Fivs2QQIV3v".$card_id."dvia3Fivs2QQIV3v".$card."dvia3Fivs2QQIV3v".$card_description;
                             while($comment_info = mysqli_fetch_row($result)) {
                             //여기에서 프린트 하면 됨 댓글 다 프린트 될때 까지 반복
                             //$comment_info[0] = messsage, $comment_info[1] = date, $comment_info[2] = user_name, 
                             //$comment_info[3] = user_email, $comment_info[4] = comment_id
                                     //user_name, user_email, date, comment_id, messsage 순으로 send
-                            $send_data.="dvia3Fivs2QQIV3v".$comment_info[2].$split_string.$comment_info[3].$split_string.$comment_info[1].$split_string.$comment_info[4].$split_string.$comment_info[0];
+                            $send_data.="dvia3Fivs2QQIV3vcomment_infodvia3Fivs2QQIV3v".$comment_info[2].$split_string.$comment_info[3].$split_string.$comment_info[1].$split_string.$comment_info[4].$split_string.$comment_info[0];
                             }
                     }
+                    break;
                 default:
                     "Error: $decoded_data\n";
                     $number_of_error++;
@@ -657,6 +682,10 @@ while (true)
                     if($command[1]=="workspace")
                     {
                         load_work_space($read_sock,$send_data);
+                        continue;
+                    }else if($command[1]=="card_detail")
+                    {
+                        load_card_detail($read_sock, $send_data);
                         continue;
                     }
                 }
