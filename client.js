@@ -36,14 +36,7 @@ jQuery(function () {
     })
     .on("click", '#save-comment', function () {
         var string= $('.input-comment').val();
-        var Now = new Date();
-        var date = Now.getFullYear();
-        date += '-' + Now.getMonth() + 1 ;
-        date += '-' + Now.getDate();
-        date += ' ' + Now.getHours();
-        date += ':' + Now.getMinutes();
-        date += ':' + Now.getSeconds();
-        socket.send("add"+split_split+"comment"+split_split+modal_cardnum+split_split+user_id+split_split+date+split_split+user_email+split_split+string);
+        socket.send("add"+split_split+"comment"+split_split+modal_cardnum+split_split+user_id+split_split+"date"+split_split+user_email+split_split+string);
     });
 });
 
@@ -61,6 +54,12 @@ $(document).ready(function () {
         var temp = $(this).text();
         $('#myModal').find('.modal-title').text(temp);
         socket.send("load"+split_split+"card_detail"+split_split+modal_cardnum);
+    });
+
+    
+    $("#myModal").on('hidden.bs.modal', function(){
+        $(this).find('.description-input').val("");
+        $(this).find('.input-comment').val("");
     });
 
     $("#save-description").on("click", function () {

@@ -26,7 +26,7 @@ echo "<script>console.log( 'Debug Objects: " . $user_email . "' );</script>";
   <link rel="icon" href="images/favicon.ico" type="image/favicon.ico"/>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-	<script src="client.js"></script>
+	<script src="client.js" charset="UTF-8" ></script>
  	<script src="css/bootstrap/js/bootstrap.bundle.js"></script>
  </head>
  

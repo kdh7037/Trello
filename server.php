@@ -117,12 +117,37 @@ function load_card_detail($socket, $data) //send loaded card_detail data to clie
             $info[4];
             for($j=0; $j<strlen($info[4]); $j+=10)
             {
-                $send_data="comment_string".split_split.substr($info[4],$j,10);
+                $send_data="comment_string".split_split.mb_substr($info[4],$j,10);
                 socket_write($socket, encode($send_data));
             }
             socket_write($socket, encode("comment_end"));    
         }
     }
+}
+function subcomment ($comment){
+	$cutbyte = 10;
+    $strbyte = strlen($comment); //$comment 의 바이트 수를 구한다
+    $subcom= array(); 
+	for($j=0; $j<$strbyte;){
+		$hancnt = 0;
+		for($i=0; $i<$cutbyte;$i++)
+			if(ord($comment[$i])>127) $hancnt++; //아스키 코드값 128부터 $hancnt를 1씩 증가시킨다
+     	
+		if($hancnt%3==0) {
+		$sub = substr($comment,$j,$cutbyte);
+		$j = $j + 10;
+		}
+		else if($hancnt%3==1) {
+		$sub = substr($comment,$j,$cutbyte+2);
+		$j = $j + 12;
+		}
+		else {
+		$sub = substr($comment,$j,$cutbyte+1);
+		$j = $j + 11;
+		}
+		$subcom[]="comment_string".split_split.$sub;
+    }
+    return $subcom;
 }
 
 error_reporting(E_ALL);
@@ -272,7 +297,7 @@ while (true)
                                 $today = date("Y-m-d H:i:s", $timestamp);
                                                             //해당 카드에 댓글 추가
                                 $query = "insert into comment (list_id, card_id, user_name, user_email, mess, date)
-                                    values ($list_id[0] ,$command[2], '$command[3]', '$command[4]', '$command[6]', '$today')";
+                                    values ($list_id[0] ,$command[2], '$command[3]', '$command[5]', '$command[6]', '$today')";
                                 mysqli_query( $con, $query );
                                                             //추가한 코맨트 id 추출(=id[0])
                                 $query = "select max(comment_id) from comment";
@@ -283,7 +308,8 @@ while (true)
                         	    set comment_num = comment_num + 1
                                 where card_id=$command[2]";
                                 mysqli_query( $con, $query );
-                                $send_data.=split_split.$id[0];
+                                $send_data=str_replace("date",$today,$send_data);
+                                $send_data.=split_split.$id[0]; //add\comment\card_id\user_name\date\user_email\string\comment_id
                                 break;
                         default:
                             "Error: $decoded_data\n";
@@ -358,7 +384,7 @@ while (true)
                                 where comment_id ='$command[1]'";
                             mysqli_query( $con, $query );
                                                             //해당 카드 comment_num-1
-			                $query = "update card 
+			                $query = "update card   
                             set comment_num = comment_num - 1 
 		            	    where card_id=$card_id[0]";
 		        	        mysqli_query( $con, $query );
@@ -661,12 +687,12 @@ while (true)
                             //댓글 내용($comment_info[0]), 날짜($comment_info[1]), 글쓴이($comment_info[2])
                             //글쓴이 이메일($comment_info[3]) comment_id($comment_info[4])추출
                             $query = "select mess, date, user_name, user_email, comment_id
-                            from comment order by comment_id asc 
+                            from comment
                             where card_id = $card_id";
                             $result = mysqli_query($con, $query);
                                     //card_id, card, card_description 순으로 send
                             $send_data.="dvia3Fivs2QQIV3v".$card_id."dvia3Fivs2QQIV3v".$card."dvia3Fivs2QQIV3v".$card_description;
-                            if(!$result) 
+                            if($result!==false) 
                             while($comment_info = mysqli_fetch_row($result)) {
                             //여기에서 프린트 하면 됨 댓글 다 프린트 될때 까지 반복
                             //$comment_info[0] = messsage, $comment_info[1] = date, $comment_info[2] = user_name, 
@@ -697,6 +723,33 @@ while (true)
                         load_card_detail($read_sock, $send_data);
                         continue;
                     }
+                }
+                if($command[0]=="add"&&$command[1]=="comment")
+                {
+                    //add\comment\card_id\user_name\date\user_email\string\comment_id
+                    $info=explode(split_split,$send_data);
+                    if(count($info)<=1){continue;}
+                    $comment_command="add".split_split."comment".split_split.$info[2];
+                    $comment_data="comment_data".split_split.$info[3].split_split.$info[5].split_split.$info[4].split_split.$info[7];
+                    //comment_data/user_name/user_email/date/comment_id
+                    $comment_string=array();
+                    for($i=0; $i<strlen($info[6]); $i+=10) 
+                        $comment_string[]="comment_string".split_split.mb_substr($info[6],$i,10);
+                    
+
+                    foreach($clients as $send_sock)
+                    {
+                        if($send_sock==$sock)
+                            continue;
+                        socket_write($send_sock, encode($comment_command));
+                        socket_write($send_sock, encode($comment_data));
+                        for($i=0; $i<count($comment_string); $i++)
+                        {
+                            socket_write($send_sock, encode($comment_string[$i]));
+                        }
+                        socket_write($send_sock, encode("comment_end"));
+                    }
+                    continue;
                 }
                 foreach ($clients as $send_sock)
                 {
