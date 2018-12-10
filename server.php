@@ -504,6 +504,7 @@ while (true)
                             where list_id = '$command[4]'";
                         $result = mysqli_query($con, $query);
                         $card_num = mysqli_fetch_row($result);
+                        echo "\ncardnum before".$card_num[0]."\n";
                         if($list_id[0] != $command[4]) {    //카드를 다른 리스트로 옮길때
                                                             //각 리스트의 card_num 변경
 			                $query = "update list 
@@ -532,7 +533,7 @@ while (true)
                         mysqli_query( $con, $query );
                         
                         if($left_id == 0) {				//card_up = 0
-                            if($card_num == 0) {//카드를 옮길 리스트에 카드가 없는 경우
+                            if($card_num[0] == 0) {//카드를 옮길 리스트에 카드가 없는 경우
                                                 //이동시킬 카드를 해당리스트 첫번째로 이동
                                 $query = "update card
                                     set link_right = '0'
