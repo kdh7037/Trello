@@ -18,7 +18,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 		exit;
 	}
 	session_start();						//세션 시작
-	$con = mysqli_connect( "localhost", "root", "1841aa" );	//데이터베이스 연결
+	$con = mysqli_connect( "localhost", "root", "gkgkgkrekfl12" );	//데이터베이스 연결
 	mysqli_select_db( $con, "workspace");
 																		//입력한 이메일과 비밀번호에 맞는 회원정보 추출(=mem_info[])
 	$query = "select mem_id, mem_name,  mem_email, mem_password from member 
@@ -54,7 +54,7 @@ if($_POST[pass] == "pass") {					//로그인화면을 지나왔을때
 		setcookie("email"); 
 	
 							//main.php로 이동
-header("Location:http://192.168.0.13:7866/main.php");
+header("Location:http://39.123.82.231:81/main.php");
 }
 							//로그인 화면 출력
 echo("

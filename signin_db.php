@@ -14,7 +14,7 @@ if( !$mem_name  || !$mem_email  || !$mem_password) {
 	exit;
   }
 						//데이터메이스 연결s
-$con = mysqli_connect( "localhost", "root", "1841aa" );
+$con = mysqli_connect( "localhost", "root", "gkgkgkrekfl12" );
 mysqli_select_db( $con, "workspace");
 						//데이터베이스에 mem_email 가 이미 존재하면 그 정보 추출(=row[0])
 $query = "select * from member where mem_email='".$mem_email."'";
@@ -31,7 +31,7 @@ $query = "insert into member
 	echo('
 				 <script>
 				 alert("회원가입이 완료되었습니다.");
-				 location.href="http://192.168.0.13:7866/login.php";
+				 location.href="http://39.123.82.231:81/login.php";
 				 </script>
 	 		  ');
 }

@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://192.168.0.13:7867");
+var socket = new WebSocket("ws://39.123.82.231:7867");
 
 var modal_listnum = 0;
 var modal_cardnum = 0;
@@ -89,12 +89,6 @@ $(document).ready(function () {
         var temp = $("#newlist").removeClass('d-none');
         temp.appendTo("#listform");
     });
-
-    $('[data-listindex]').change(function(){
-        var listnum = $(this).attr("data-listindex");
-        var name = $(this).find("input").val();
-        socket.send("modify"+split_split+"list_name"+split_split+listnum+split_split+name);
-    });
 });
 
 socket.onopen = function (event) {
@@ -110,39 +104,10 @@ var comment_id;
 var server_comment = "";
 
 socket.onmessage = function (event) {
-    alert(event.data);
-    // 스왑, 제거, 추가
     var string = event.data;
+	alert(event.data);
     var command = string.split(split_split);
     switch(command[0]){
-        /*
-        case "load":
-            if(command[1] == "workspace"){
-                var a=2;
-                while(command[a] == "list_info"){
-                    var listsplit = command[++a].split('GdwiSEoRfXJsyiw');
-                     // $send_data.="split_split+"list_info"+split_split".$list_id[$i].$split_string.$list[$i].$split_string.$card_num[$i];
-                    add_list(listsplit[1],listsplit[0]);
-                    for(a=a+1; command[a] =="card_info" ; a++){
-                        var cardsplit=command[++a].split('GdwiSEoRfXJsyiw');
-                        //$send_data.="split_split+"\card_info"+split_split".$card_id[$i][$j].$split_string.$split_string.$card[$i][$j];
-                        add_card(listsplit[0],cardsplit[0]);
-                        modify_card_name(cardsplit[0],cardsplit[1]);
-                    }
-                }
-            }
-            else if(command[1] == "card_detail"){
-                //card, card_description 순으로 send
-                //user_name, user_email, date, comment_id, messsage 순으로 send
-                modify_description(command[2], command[4]);
-                for(var i = 5 ; command[i]!=undefined ; i++)
-                {   // card_id string id date commentnum email
-                    var comment_split=command[i].split("GdwiSEoRfXJsyiw");
-                    add_comment(command[2],comment_split[0],comment_split[2],comment_split[3],comment_split[4],comment_split[1]);  
-                }
-            }
-            break;
-            */
         case "modify":
             if(command[1] == "list_name"){
                 //[2]는 listnum, [3]은 new_name
@@ -209,7 +174,13 @@ function add_list(name, listnum){
     var temp = $("#mylist").clone().removeClass('d-none').attr("id","").attr("data-listindex",listnum);
     temp.appendTo("#listform");
     temp.find(".listtitle").val(name);
-
+	
+	$(".listtitle").focusout(function() {
+        var listnum = $(this).parent().parent().parent().attr("data-listindex");
+        var name = $(this).val();
+        socket.send("modify"+split_split+"list_name"+split_split+listnum+split_split+name);
+    });
+	
     $( "#listform" ).sortable({
         items: $('.mylist'),
         update: function(event,ui){
@@ -230,15 +201,24 @@ function add_card(listnum,cardnum){
         items: $(".inner-card"),
         connectWith: '.drag-zone',
         DroponEmpty : true,
+		/*stop: function(e, ui) {
+            socket.onmessage = function (event) {
+                var string = event.data;
+                var command = string.split(split_split);
+            }
+            if (command[1] == "modify" && command[2] == "card")
+              $(ui.sender).sortable('cancel');
+        },*/
         update: function(event,ui){
-            if(this === ui.item.parent()[0]){
+			if(this === ui.item.parent()[0]){
                 var list_index = $(this).parent().parent().attr("data-listindex");
                 var card_index = ui.item.attr("data-cardindex");
                 var card_up = ui.item.prev().attr("data-cardindex");
                 if (card_up === undefined)
                     card_up = 0;
+			alert("modify"+split_split+"card_place"+split_split+card_index+split_split+card_up+split_split+list_index);
             socket.send("modify"+split_split+"card_place"+split_split+card_index+split_split+card_up+split_split+list_index);
-            }
+			}
         }
     }).disableSelection();
 }

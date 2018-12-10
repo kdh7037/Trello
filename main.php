@@ -4,7 +4,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 	echo('
 		<script>
 		alert("로그인이 필요합니다.");
-		location.href="http://192.168.0.13:7866/login.php";
+		location.href="http://39.123.82.231:81/login.php";
 		</script>
 		');
 }
@@ -34,8 +34,8 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 
  <body class="bg-primary" style="overflow:auto">
 	 <form>
-		<input type="hidden" name="user_id" id="user_id" value="<?php session_start(); echo $_SESSION["mem_name"];?>">
-		<input type="hidden" name="user_email" id="user_email" value="<?php session_start(); echo $_SESSION["mem_email"];?>">
+		<input type="hidden" name="user_id" id="user_id" value="<?php echo $_SESSION["mem_name"];?>">
+		<input type="hidden" name="user_email" id="user_email" value="<?php echo $_SESSION["mem_email"];?>">
 	</form>
 	<div class="modal fade" tabindex="-1" id="myModal" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
