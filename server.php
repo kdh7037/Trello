@@ -499,6 +499,11 @@ while (true)
                             from card where card_id = $command[2]";
                         $result = mysqli_query($con, $query);
                         $list_id = mysqli_fetch_row($result);
+                                                //카드를 옮길 리스트의 카드 수 추출(=card_num[0])
+                        $query = "select card_num from list 
+                            where list_id = '$command[4]'";
+                        $result = mysqli_query($con, $query);
+                        $card_num = mysqli_fetch_row($result);
                         if($list_id[0] != $command[4]) {    //카드를 다른 리스트로 옮길때
                                                             //각 리스트의 card_num 변경
 			                $query = "update list 
@@ -526,31 +531,39 @@ while (true)
                             where card_id ='$link[1]'";
                         mysqli_query( $con, $query );
                         
-                        if($left_id == '0') {				//card_up = 0
+                        if($left_id == 0) {				//card_up = 0
+                            if($card_num == 0) {//카드를 옮길 리스트에 카드가 없는 경우
+                                                //이동시킬 카드를 해당리스트 첫번째로 이동
+                                $query = "update card
+                                    set link_right = '0'
+                                    where card_id ='$command[2]'";
+                                mysqli_query( $con, $query );
+                                $query = "update card
+                                    set link_left = '0'
+                                    where card_id ='$command[2]'";
+                                mysqli_query( $con, $query );
+
+                            }
+                            else {
                                                 //카드를 옮길 리스트의 첫번째 카드 id 추출(=first_id[0])
-                            $query = "select card_id from card 
+                                $query = "select card_id from card 
                                 where (link_left = '0') and (list_id = '$command[4]')";
-                            $result = mysqli_query($con, $query);
-                            $first_id = mysqli_fetch_row($result);
-                            if($command[2]==$first_id) break;		//card_index = $first_id 일 경우 break;
+                                $result = mysqli_query($con, $query);
+                                $first_id = mysqli_fetch_row($result);
                                                 //이동시킬 카드를 첫번째 카드 왼쪽으로 이동
-                            $query = "update card
-                                set link_right = '$first_id[0]'
-                                where card_id ='$command[2]'";
-                            mysqli_query( $con, $query );
-                            $query = "update card
-                                set link_left = '$command[2]'
-                                where card_id ='$first_id[0]'";
-                            mysqli_query( $con, $query );
-                            $query = "update card
-                                set link_left = '0'
-                                where card_id ='$command[2]'";
-                            mysqli_query( $con, $query );
-                                                                            //옮길 카드의 list_id 변경
-                            $query = "update card
-                                set list_id = '$command[4]'
-                                where card_id ='$command[2]'";
-                            mysqli_query( $con, $query );
+                                $query = "update card
+                                    set link_right = '$first_id[0]'
+                                    where card_id ='$command[2]'";
+                                mysqli_query( $con, $query );
+                                $query = "update card
+                                    set link_left = '$command[2]'
+                                    where card_id ='$first_id[0]'";
+                                mysqli_query( $con, $query );
+                                $query = "update card
+                                    set link_left = '0'
+                                    where card_id ='$command[2]'";
+                                mysqli_query( $con, $query );
+                            }
                         }
                         else {						//card_up > 0
                                                 //card_up의 오른쪽 카드 id 추출(=right_id[0])
@@ -558,7 +571,8 @@ while (true)
                             from card where card_id = $command[3]";
                         $result = mysqli_query($con, $query);
                         $right_id = mysqli_fetch_row($result);
-                                                //이동시킬 카드를 카드 right_id[0], left_id사이로 이동
+                                                //이동시킬 카드를 카드 right_id[0], left_id 사이로 이동
+                        echo "/nright_id".$right_id[0]."/n";
                         $query = "update card
                             set link_right = '$command[2]'
                             where card_id ='$left_id'";
@@ -575,13 +589,32 @@ while (true)
                             set link_left = '$left_id'
                             where card_id = '$command[2]'";
                         mysqli_query( $con, $query );
-                                                                //옮길 카드의 list_id 변경
-                            $query = "update card
-                                set list_id = '$command[4]'
-                                where card_id ='$command[2]'";
-                            mysqli_query( $con, $query );
                         }
+                                                                //옮긴 카드의 list_id 변경
+                        $query = "update card
+                            set list_id = '$command[4]'
+                            where card_id ='$command[2]'";
+                        mysqli_query( $con, $query );"";
+                                                //이동시킨 카드 양옆 카드 id 추출(=link[])
+                        $query = "select link_left, link_right
+                            from card where card_id = $command[2]";
+                        $result = mysqli_query($con, $query);
+                        $link = mysqli_fetch_row($result);
+                                                //card_up 양옆 카드 id 추출(=link[])
+                        $query = "select link_left, link_right
+                            from card where card_id = $command[3]";
+                        $result = mysqli_query($con, $query);
+                        $link_up = mysqli_fetch_row($result);
+                                                //카드를 옮길 리스트의 카드 수 추출(=card_num[0])
+                        $query = "select card_num from list 
+                            where list_id = '$command[4]'";
+                        $result = mysqli_query($con, $query);
+                        $card_num = mysqli_fetch_row($result);
                         echo "card's position changed\n";
+                        echo "\nlist_id".$command[4]."\n";
+                        echo "\ncard_num".$card_num[0]."\n";
+                        echo "\n\n".$link_up[0]."\ncard_up\n".$link_up[1]."\n\n";
+                        echo "\n\n".$link[0]."\ncard_index\n".$link[1]."\n\n";
                         break;
                     case "comment":
                                                                 //modify\comment_string\comment_index\new_ string
