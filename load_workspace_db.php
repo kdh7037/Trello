@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect( "localhost", "root", "qlzkqaqg123" );		//데이터베이스 연결
+$con = mysqli_connect( "localhost", "root", "1841aa" );		//데이터베이스 연결
 mysqli_select_db( $con, "workspace");
 									//list_info를 넣을 배열들 선언
 $list_id = array();

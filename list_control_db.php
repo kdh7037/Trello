@@ -1,7 +1,7 @@
 <?php
 $command=preg_split("/[\\\\]/", $_POST[message]);		//message 분리
 
-$con = mysqli_connect( "localhost", "root", "qlzkqaqg123" );	//데이터베이스 연결
+$con = mysqli_connect( "localhost", "root", "1841aa" );	//데이터베이스 연결
 mysqli_select_db( $con, "workspace");
 
 switch ($command[0]) {

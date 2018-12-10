@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://121.130.151.64:7867");
+var socket = new WebSocket("ws://localhost:7867");
 
 var modal_listnum = 0;
 var modal_cardnum = 0;
@@ -229,13 +229,16 @@ function add_card(listnum,cardnum){
     $( ".drag-zone" ).sortable({
         items: $(".inner-card"),
         connectWith: '.drag-zone',
+        DroponEmpty : true,
         update: function(event,ui){
-            var list_index = $(this).parent().parent().attr("data-listindex");
-            var card_index = ui.item.attr("data-cardindex");
-            var card_up = ui.item.prev().attr("data-cardindex");
-            if (card_up === undefined)
-                card_up = 0;
+            if(this === ui.item.parent()[0]){
+                var list_index = $(this).parent().parent().attr("data-listindex");
+                var card_index = ui.item.attr("data-cardindex");
+                var card_up = ui.item.prev().attr("data-cardindex");
+                if (card_up === undefined)
+                    card_up = 0;
             socket.send("modify"+split_split+"card_place"+split_split+card_index+split_split+card_up+split_split+list_index);
+            }
         }
     }).disableSelection();
 }

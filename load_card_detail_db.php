@@ -1,5 +1,5 @@
 <?php
-$con = mysqli_connect( "localhost", "root", "qlzkqaqg123" );		//데이터베이스 연결
+$con = mysqli_connect( "localhost", "root", "1841aa" );		//데이터베이스 연결
 mysqli_select_db( $con, "workspace");
 								//보여줄 카드의 id를 받아와 $card_id에 저장
 $card_id = $_POST[card_detail];

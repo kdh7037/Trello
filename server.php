@@ -211,7 +211,7 @@ while (true)
         if (!empty($data))
         {
             $decoded_data=unmask($data);
-            echo " send {$decoded_data}\n";
+            //echo " send {$decoded_data}\n";
             $send_data=$decoded_data;
             $command=explode("dvia3Fivs2QQIV3v",$decoded_data);
             switch ($command[0]) {
