@@ -211,7 +211,7 @@ while (true)
         if (!empty($data))
         {
             $decoded_data=unmask($data);
-            echo " send {$decoded_data}\n";
+           // echo " send {$decoded_data}\n";
             $send_data=$decoded_data;
             $command=explode("dvia3Fivs2QQIV3v",$decoded_data);
             switch ($command[0]) {
@@ -504,7 +504,6 @@ while (true)
                             where list_id = '$command[4]'";
                         $result = mysqli_query($con, $query);
                         $card_num = mysqli_fetch_row($result);
-                        echo "\ncardnum before".$card_num[0]."\n";
                         if($list_id[0] != $command[4]) {    //카드를 다른 리스트로 옮길때
                                                             //각 리스트의 card_num 변경
 			                $query = "update list 
@@ -573,7 +572,6 @@ while (true)
                         $result = mysqli_query($con, $query);
                         $right_id = mysqli_fetch_row($result);
                                                 //이동시킬 카드를 카드 right_id[0], left_id 사이로 이동
-                        echo "/nright_id".$right_id[0]."/n";
                         $query = "update card
                             set link_right = '$command[2]'
                             where card_id ='$left_id'";
@@ -612,10 +610,6 @@ while (true)
                         $result = mysqli_query($con, $query);
                         $card_num = mysqli_fetch_row($result);
                         echo "card's position changed\n";
-                        echo "\nlist_id".$command[4]."\n";
-                        echo "\ncard_num".$card_num[0]."\n";
-                        echo "\n\n".$link_up[0]."\ncard_up\n".$link_up[1]."\n\n";
-                        echo "\n\n".$link[0]."\ncard_index\n".$link[1]."\n\n";
                         break;
                     case "comment":
                                                                 //modify\comment_string\comment_index\new_ string
