@@ -31,7 +31,7 @@ $query = "insert into member
 	echo('
 				 <script>
 				 alert("회원가입이 완료되었습니다.");
-				 location.href="http://localhost/login.php";
+				 location.href="http://192.168.0.13:7866/login.php";
 				 </script>
 	 		  ');
 }

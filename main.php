@@ -4,7 +4,7 @@ if(!isset($_SESSION["mem_email"])) {			//로그인이 안된 상태면 login.php
 	echo('
 		<script>
 		alert("로그인이 필요합니다.");
-		location.href="http://localhost:7866/login.php";
+		location.href="http://192.168.0.13:7866/login.php";
 		</script>
 		');
 }

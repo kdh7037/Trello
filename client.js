@@ -1,4 +1,4 @@
-var socket = new WebSocket("ws://localhost:7867");
+var socket = new WebSocket("ws://192.168.0.13:7867");
 
 var modal_listnum = 0;
 var modal_cardnum = 0;
